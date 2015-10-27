@@ -1,0 +1,17 @@
+%% \begin{tikzpicture}[->,>=stealth',shorten >=5pt,auto,node distance=1cm]
+%%   \tikzstyle{every state}=[fill=orange!50, draw=none]
+%%   \node[state, scale=0.6] (A)         {$0$};
+%%   \path (A) edge [loop above] node {\footnotesize{\left(0, 1, 0\right)}} (A)
+%%   edge [loop left]  node {\footnotesize{\left(-1, 0, 0\right)}} (A)
+%%   edge [loop below] node {\footnotesize{\left(0, -1, 0\right)}} (A)
+%%   edge [loop right] node {\footnotesize{\left(1, 0, 0\right)}} (A);
+%% \end{tikzpicture}
+%\caption{The lattice graph representing a repeated square pattern.}
+\begin{tikzpicture}[->,>=stealth',shorten >=5pt,auto,node distance=1cm]
+  \tikzstyle{every state}=[fill=red!50, draw=none]
+  \node[state, scale=0.7] (A)         {$0$};
+  \path (A) edge [loop above] node {\footnotesize{(0,1,0)}} (A)
+  edge [loop left]  node {\footnotesize{(-1,0,0)}} (A)
+  edge [loop below] node {\footnotesize{(0,-1,0)}} (A)
+  edge [loop right] node {\footnotesize{(1,0,0)}} (A);
+\end{tikzpicture}

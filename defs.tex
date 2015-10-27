@@ -1,0 +1,103 @@
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{afterpage}
+\usepackage{graphicx}
+\usepackage{booktabs}
+%\usepackage{algorithm}
+\usepackage[ruled]{algorithm2e}
+%\usepackage{algorithmic}
+
+\newcommand{\Ispace}{\mathcal{I}}
+\newcommand{\Rspace}{\mathcal{R}}
+\newcommand{\sub}[1]{_{\mbox{\small #1}}}
+\newcommand{\disk}{\sub{disk}}
+\newcommand{\ident}{\sub{ident}}
+\newcommand{\triv}{\sub{triv}}
+\newcommand{\rect}{\sub{rect}}
+\newcommand{\drect}{\sub{dblrect}}
+\newcommand{\free}{\sub{free}}
+\newcommand{\obst}{\sub{obst}}
+\newcommand{\Rdisk}{\Rspace\disk}
+\newcommand{\Rtriv}{\Rspace\triv}
+\newcommand{\Rident}{\Rspace\ident}
+\newcommand{\Rrect}{\Rspace\rect}
+\newcommand{\Rdrect}{\Rspace\drect}
+\newcommand{\Real}{\mathbb{R}}
+\newcommand{\pow}{\operatorname{pow}}
+\newcommand{\sed}{\textsc{Sed}}
+\newcommand{\aabb}{\textsc{aabb}}
+\newcommand{\drap}{\textsc{drap}}
+\newcommand{\area}{\operatorname{area}}
+\newcommand{\Natural}{\mathbb{N}}
+\renewcommand{\theenumi}{\roman{enumi}}
+
+\def\markatright#1{\leavevmode\unskip\nobreak\quad\hspace*{\fill}{#1}}
+
+\newcommand{\spaceA}{\smallskip}
+\newcommand{\spaceB}{}
+
+\usepackage{amssymb,mathrsfs}
+\usepackage{xspace}
+\usepackage{multirow}
+\usepackage{comment}
+\usepackage{indentfirst}
+\usepackage{tikz}
+\usepackage[font=large]{caption} % set figure caption font size to 12pt
+
+\setlength{\belowcaptionskip}{-12pt}
+\usetikzlibrary{plotmarks}
+\usetikzlibrary{positioning,chains,fit,shapes,calc}
+\usetikzlibrary{arrows,shadows,trees}
+\tikzset{post/.style={->,>=stealth', thick},
+         arc/.style={->,>=stealth' },
+         node/.style={circle,draw,font=\sffamily\small},
+         edge/.style={->, >=stealth', thin},
+         edges/.style={->, shorten <=2pt, shorten >=2pt}
+}
+% create tables
+\usepackage{tabularx}
+%\newcolumntype{C}[1]{>{\Centering}m{\small#1}}
+%\renewcommand\tabularxcolumn[1]{C{#1}}
+\usepackage{adjustbox}
+% tikz setup for lattice graph
+\usepackage{pgf}
+\usetikzlibrary{automata}
+%\usepackage[latin1]{inputenc}
+\usepackage{breqn} % multiple line equation
+%\usepackage[boxed,linesnumbered,commentsnumbered]{algorithm2e}
+% End proofs with a square at the right margin.
+\def\markatright#1{\leavevmode\unskip\nobreak\quad\hspace*{\fill}{#1}}
+\renewenvironment{proof}{\par\emph{Proof:}}{\markatright{$\square$}\par}
+
+\newcommand{\edge}[3]{{#1}\overset{#2}{\longrightarrow}{#3}}
+%          #2
+%      #1 -----> #3
+\newcommand{\lgpath}[4]{{#1}\overset{#2}{\longrightarrow}{\cdots}\overset{#3}{\longrightarrow}{#4}}
+%         #2       #3
+%     #1 ---> ... ---> #4
+\newcommand{\cercle}[5]{
+  \node[circle,inner sep=0,minimum size={2*#2}](a) at (#1) {};
+  \draw[#5,dashed] (a.#3) arc (#3:{#3+#4}:#2);
+}
+\newcommand{\mx}{_{\textrm max}}
+\newcommand{\range}{\phi}
+\newcommand{\dt}{\Delta t}
+\newcommand{\id}{{\textrm id}}
+\renewcommand{\L}{\Lambda}
+\newcommand{\LT}{\Lambda^{\dagger}}
+\newcommand{\G}{\mathcal{G}}
+\newcommand{\sq}{\mathcal{S}}
+\newcommand{\pv}{\mathcal{V}}
+\newcommand{\A}{\G_{\L}}
+
+\newcommand{\one}{^{(1)}}
+\newcommand{\two}{^{(2)}}
+\newcommand{\iii}{^{(i)}}
+\newcommand{\ipo}{^{(i+1)}}  % i plus one = ipo
+
+\newcommand{\Time}{\mathcal{T}}
+\newcommand{\Quality}{\mathcal{Q}}
+\newcommand{\Q}{Q}
+\newcommand{\T}{T}
+\newcommand{\B}{\mathcal{B}}
+\newcommand{\Tr}{\mathbf{T}}

@@ -1,0 +1,13 @@
+
+    \begin{tikzpicture}[->,>=stealth',shorten >=5pt,auto,node distance=3cm]
+      \tikzstyle{every state}=[draw=none]
+      \node[state, scale=0.7, fill=red!50] (A) at (0,0)    {$0$};
+      \node[state, scale=0.7, fill=blue!50] (B) at (3,0)  {$1$};
+      \path (A) edge [bend left=10] node {\scriptsize{(0, 40,0)}} (B)
+            (A) edge [bend left=45] node {\scriptsize{(-35,-20,0)}} (B)
+            (A) edge [bend left=90] node {\scriptsize{(35,-20,0)}} (B)
+            (B) edge [bend left=10] node {\scriptsize{(-40,0,0)}} (A)
+            (B) edge [bend left=45] node {\scriptsize{(35,20,0)}} (A)
+            (B) edge [bend left=90] node {\scriptsize{(-35,20,0)}} (A);
+    \end{tikzpicture}
+  

@@ -1,0 +1,110 @@
+\begin{tikzpicture}[scale=1.25]
+    \tikzstyle{ann} = [fill=white, font=\footnotesize,inner sep=1pt]   
+    %\useasboundingbox (1,0.5) rectangle (5.5,5);
+    % center 2.875 2.75
+    \def\xs{2.875}
+    \def\ys{2.75}
+    \coordinate (S) at (\xs, \ys);
+    \def\shiftx{1.25}               
+    \def\shifty{1}
+    \def\ddy{2.5}
+    \def\offset{0.5}
+    \def\movedist{1.65}
+    \coordinate (A) at (1.5, 4.125);
+    \coordinate (B) at (4,4.25-\shifty); % r_i
+    \def\xrc{5}
+    \def\yrc{3.25}
+    \coordinate (C) at (\xrc, \yrc);
+    \def\xrd{4.875}
+    \def\yrd{2}
+    \coordinate (D) at (\xrd, \yrd);
+     % ranges of r_c and r_d
+    \def\childcircleD{(D) circle (\movedist)}
+    \def\childcircleC{(C) circle (\movedist)}
+    \draw[orange] \childcircleC;
+    \draw[teal] \childcircleD;
+    % intersection region of children's ranges
+    \begin{scope}
+      \clip \childcircleC;
+      \filldraw[fill=yellow!20] \childcircleD;
+    \end{scope}
+    
+    \draw[fill=blue] (3,2.92) -- (2.5,2.75) -- (3,2.58) -- (2.875,2.75) -- cycle;
+    \node[color=blue] at (2.875, 2.75-\offset) {$r_6$};
+    \draw[fill=red!50] (1.5,4.5) -- (1.33,4) -- (1.5,4.125) -- (1.67,4) -- cycle; % center .5 4.125
+    % vacancies
+    \def\dx{1.5}
+    \def\dy{1.5}
+    \draw[color=blue] (3+\dx,2.92) -- (2.5+\dx,2.75) -- (3+\dx,2.58) -- (2.875+\dx,2.75) -- cycle;
+    \draw[color=blue] (3-\dx,2.92) -- (2.5-\dx,2.75) -- (3-\dx,2.58) -- (2.875-\dx,2.75) -- cycle;
+   % \draw[color=blue] (3,2.92+\dy) -- (2.5,2.75+\dy) -- (3,2.58+\dy) -- (2.875,2.75+\dy) -- cycle;
+    %%%%%%%
+    \draw[fill=blue] (3,2.92+\dy) -- (2.5,2.75+\dy) -- (3,2.58+\dy) -- (2.875,2.75+\dy) -- cycle;
+    \node[color=blue] at (3, 3.25+\offset) {$r_5$};
+    %%%%%%%%
+    \draw[color=blue] (3,2.92-\dy) -- (2.5,2.75-\dy) -- (3,2.58-\dy) -- (2.875,2.75-\dy) -- cycle;
+   
+    \node[color=blue] at (1.25, 3.25+\offset) {$r_1$};
+    %%%%%%%%%%%%%%%% triangle facing -135 degree
+    \def\xc{4}
+    \def\yc{3.25}
+    \coordinate (TC) at (\xc, \yc);
+    \def\longlen{0.25}
+    \coordinate (TA) at (\xc-\longlen, \yc-\longlen);
+    \coordinate (TB) at (\xc, \yc+\longlen);
+    \coordinate (TD) at (\xc+\longlen, \yc);
+ 
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    \node[color=blue] at (3.9, 4.75-\shifty) {$r_4$};
+    \draw[] (S) -- (A);
+    \draw[] (S) -- (B);
+  
+    \node[color=blue] at (5.4, 3.25) {$r_2$};
+    \draw[] (B) -- (C);
+   
+    \node[color=blue] at (5.4, 4.35-\ddy) {$r_3$};
+    \draw[] (B) -- (D);
+    \draw[] (C) -- (D);
+    \coordinate (G) at (1.9+\dx,2.75);
+    \draw[dotted] (2.875-\dx,2.75) -- (G);
+    \draw[dashed] (B) -- (G);
+    \def\goalcircleG{(G) circle (0.1)}
+    \draw[fill=red] \goalcircleG;
+    \node[ann] at (3.5,2.25) {$g_4$};
+    % three robots
+    \draw[fill=red] (TA) -- (TB) -- (TC) -- (TD) -- cycle;
+    % draw r_c
+    \def\xcc{5}
+    \def\ycc{3.25}
+    \def\hrlen{0.375}
+    \def\ylen{0.17}
+    \def\xlen{0.125}
+    \coordinate (CC) at (\xcc, \ycc);
+    \coordinate (CA) at (\xcc-\hrlen, \ycc);
+    \coordinate (CB) at (\xcc+\xlen, \ycc+\ylen);
+    \coordinate (CD) at (\xcc+\xlen, \ycc-\ylen);
+    \draw[fill=orange] (CA) -- (CB) -- (CC) -- (CD) -- cycle;
+    %\def\parentCircle {(S) circle (\movedist)}
+    %\draw[color=blue] \parentCircle;
+    % draw r_d  heading 135 degrees
+    \def\xdc{4.875}
+    \def\ydc{2}
+    \coordinate (DC) at (\xdc, \ydc);
+    \coordinate (DA) at (\xdc-\longlen, \ydc+\longlen);
+    \coordinate (DB) at (\xdc, \ydc-\longlen);
+    \coordinate (DD) at (\xdc+\longlen, \ydc);
+    \draw[fill=teal] (DA) -- (DB) -- (DC) -- (DD) -- cycle;
+    %%%%%%%%%%%%%% add texts of bounded ranges
+    %\node[color=blue] at (\xs-0.75, \ys-\shifty) {$\B_s$};
+    \node[color=orange] at (\xrc, \yrc+\shifty) {$\B_2$};    
+    \node[color=teal] at (\xrd, \yrd-\shifty) {$\B_3$};
+    
+    \coordinate (R5) at (2.875, 2.75+\dy);
+    \draw[] (S) -- (R5);
+    \draw[] (R5) -- (A);
+    \draw[] (R5) -- (B);
+  \end{tikzpicture}
+  \caption{The relocate robot $r_4$ has two descendants $r_2,
+    r_3$ in the moving subtree. Two circles denote the bounded
+    ranges of $r_2, r_3$, $r_4$ finds an intermediate goal (red dot)
+    $g_4\in\left(\B_3 \cap \B_3\right)$.}

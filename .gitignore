@@ -1,0 +1,5 @@
+chapters/tmp/*
+chapters/*.md
+chapters/LICENSE
+chapters/*.sh
+chapters/languagetools/*

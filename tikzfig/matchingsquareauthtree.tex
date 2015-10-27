@@ -1,0 +1,15 @@
+\begin{tikzpicture}[scale=1.5]
+    \node[] (I) at (3,3)   {$\langle6\rangle$};
+    \node[] (B) at (0,2)   {$\langle6,4,1\rangle$};
+    \node[] (C) at (2,4)   {$\langle6,2\rangle$};
+    \node[] (D) at (4,2)   {$\langle6,3\rangle$};
+    \node[] (E) at (2,2)   {$\langle6,4\rangle$};
+    \node[] (F) at (4,4)   {$\langle6,5\rangle$};
+    
+    \draw[edge] (I) -- (C);
+    \draw[edge] (I) -- (D);
+    \draw[edge] (I) -- (E);
+    \draw[edge] (I) -- (F);
+    \draw[edge] (E) -- (B);
+\end{tikzpicture}
+\caption{Authority tree constructed by the robots in Figure~\ref{fig:formsquare}.}

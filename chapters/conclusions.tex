@@ -1,0 +1,61 @@
+\chapter{Conclusions}
+\label{chp:conc}
+
+In this dissertation, two problems are considered. 
+The first one is discussing about the capability of a robot to complete a task, without knowing its true I-states but using an approximation of the exact states.
+%
+The second problem we are interested in is how to solve a lattice pattern formation problem for the multi-robot systems in a distributed manner. 
+%
+For the first problem we have presented a geometric planning approach, and for the second problem, we have contributed two decentralized multi-robot formation algorithms.
+
+
+The first algorithm in Chapter~\ref{chp:cga} contributes to a simple data structure, called double-rectangle range space, to represent a robot's knowledge, subject to the bounded sensing and motion uncertainty. 
+%
+We claim that this geometric approach can do a better I-state over-approximation job by comparing it with existed approaches. 
+%
+Hence, this approach provides a robot, that is equipped with extremely limited sensing and motion units, a high success rate to complete many landmark-based navigation tasks.
+%
+Additionally, we argue that the extensibility of this approach, that is, the idea of ``k-fold unions of rectangle range spaces'' is useful for more accurate I-state over-approximation with a certain level sacrificing of the computation efficiency.
+%
+We realize that there may some future work to think about. 
+For example, the geometric approach to
+generate \emph{under}-approximation of the I-states.  
+%
+The discrepancy between the over- and under-approximations could then be used by the robot to estimate the quality of its representation.
+
+We have presented two novel decentralized methods to solve the multi-robot lattice formation problem in Chapter~\ref{chp:mrf1} and Chapter~\ref{chp:mrf2}, respectively. 
+%
+The major challenge is the constraint of using only robots' local information to form various lattice pattern.  
+
+To let the algorithm be generally useful for constituting various lattice patterns, rather than solving only one pattern formation problem, we have created a graph representation of the desired pattern.
+%
+Both of our formation algorithms use the graph representation as input.
+
+
+To overcome the local information constraint, the first formation algorithm uses a distributed task assignment strategy to form local pattern. 
+%
+It also uses a collection of authority trees to organize robots into a global structure.
+%
+In contrast, the second formation algorithm uses scheduling-like strategy to complete the desired pattern by sequentially relocating one robot to an open vacancy that constitutes a part of the lattice. 
+%
+The key features of the second formation algorithm also include the spanning tree construction and the ``No Child Left Behind'' motion strategy that maintains the connectivity of the communication graph during the algorithm execution.
+
+It is difficult for us to provide an estimation of time consumption for the task-assignment-based formation algorithm because of the nondeterministic deconstructions of the authority trees. 
+%
+However, we have proved that the second formation algorithm provides an upper-bound of the execution time for robots to form desired lattice patterns.  
+%
+That is, the algorithm execution time is generally bounded by a value quadratic to the number of robots ($O(n^2)$) only, regardless of the lattice pattern to constitute.
+
+
+We realize currently the second formation algorithm is not efficient and robust enough,  but it has a great potential to expand itself. 
+%
+In current version there is only one robot relocating to one vacancy at a time. 
+%
+We anticipate to expand the algorithm so that multiple robots could be
+relocated to multiple vacancies at a time. 
+%
+Particularly, we expect to construct $k, 1\leq k < n$ spanning trees from the communication graph, by finding the $k$ highest ID stable robots with vacancies,
+and $k$ highest ID unstable robots in the system.
+Thus, the major challenge becomes: how to design a proper motion strategy to enable multiple robots make progress to their goals, while maintaining the connectivity of the communication graph?
+%
+Furthermore, to enhance the the algorithm's robustness to the robots failures, we are also interested in designing an error-tolerance mechanism such that a robot can recover from an error status.
