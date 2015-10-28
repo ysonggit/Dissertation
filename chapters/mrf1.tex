@@ -41,7 +41,7 @@ Each robot periodically broadcasts a message containing:
   \begin{enumerate}
   \item an \textbf{authority} -- the level of importance of the sender robot
   \item a \textbf{role} -- an integer identifying a lattice graph vertex as the role currently selected by the sender robot
-  \item a \textbf{matching} of the neighbors of the sender robot to out-going edges of its
+  \item a \textbf{matching} of the neighbors of the sender robot to outgoing edges of its
   role vertex, or to a dummy ``no-match'' element.
  \end{enumerate}
 
@@ -71,7 +71,7 @@ First, we define the term ``authority'' associated with a comparison operation, 
 
 \begin{defn}
   An \textbf{authority} is an ordered list of robot IDs
-    $$ \L = \langle \id_1, \ldots, \id_k \rangle . $$
+    $$\L = \langle \id_1, \ldots, \id_k \rangle . $$
     containing:
     \begin{enumerate}
     \item \textbf{Root} ID: the first ID in the list, $\id_1$;
@@ -152,23 +152,23 @@ Generally each robot repeats following steps every $\dt$ seconds:
 Once the authority tree is constructed, each root robot selects the first vertex of the lattice graph as its role; the descendant robot accepts a role from its parent.
 
 For a robot $r_i$ who already selects its role, it needs to establish a
-relationship, called \textbf{matching} between its neighbors and the out-going edges from its role vertex. 
+relationship, called \textbf{matching} between its neighbors and the outgoing edges from its role vertex. 
 \begin{defn}
 \label{def:matching}
   Given a robot $r_i$ and a role vertex $v$ for that robot, let the lattice
   graph edge set
-    $O=\{\emptyset, e_{v}^w, e_{v}^u, \ldots\}$
+    $E=\{\emptyset, e_{v}^w, e_{v}^u, \ldots\}$
   be the set that contains a null value $\emptyset$ and all outgoing edges from vertex $v$.  
   Let
     $I=\{\id_a, \id_b, \ldots \}$
   be the set that contains the IDs of the neighbors of $r_i$.  
   Then a
-  \textbf{matching for $r_i$} is a function $g : I \rightarrow O$ that
+  \textbf{matching for $r_i$} is a function $g : I \rightarrow E$ that
   associates each neighbor ID with either a lattice graph edge from its role vertex or with the null value.
 \end{defn}
 For example, in Figure~\ref{fig:authtree}, robot $r_2$ is an orphan robot to the root robot $r_3$, with $g(\id_{r_2}) = \emptyset$.
 
-Assume robot $r_i$ has $N_i$ neighbors and its out-degree is $E_i$. 
+Assume robot $r_i$ has $N_i$ neighbors and its outdegree is $E_i$. 
 %
 We interpret this problem as a task assignment problem~\cite{Kuh55, Mun57}: given $\min(N_i, E_i)$ agents and $E_i$ tasks, we create a $\min(N_i, E_i)\times E_i$ matrix containing the cost of assigning each agent to a task. 
 %
@@ -184,10 +184,10 @@ travel from its current position $(x^{(i)}, y^{(i)})$ to the desired
 position $(\bar{x}^{(i)}, \bar{y}^{(j)})$. 
 %
 %TODO: replace transformation T with \math font, consistent with RAL
-Given an edge $e$, we can use its transformation $T(e)$ to find the desired position.
+Given an edge $e$, we can use its transformation $\Tr(e)$ to find the desired position.
 \begin{equation}
   \label{eq:trans-pos}
-  \left[\bar{x}^{(i)} \quad \bar{y}^{(i)} \quad 1\right]^\top = T(e) \left[0 \quad 0 \quad 1\right]^\top
+  \left[\bar{x}^{(i)} \quad \bar{y}^{(i)} \quad 1\right]^\top = \Tr(e) \left[0 \quad 0 \quad 1\right]^\top
 \end{equation}
 
 The procedure to construct the cost matrices for a root robot and a descendant robot are slightly different.
