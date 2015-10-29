@@ -22,17 +22,17 @@ strategy using only local information, and from the need to maintain
 connectivity across all robots through the entire process.
 
 
-The remaining sections of this chapter are organized as follows. 
+The rest of this chapter is organized as follows. 
 %
 Section~\ref{sec:vacancy} introduces the concept of vacancy used in this algorithm. 
 % 
-Message-passing plays an essential role for robots to interact and coordinate with each other.
+Message passing plays an essential role for robots to interact and coordinate with each other.
 %
 In Section~\ref{sec:com}, we explain the communication protocols in the system.
 %
 That is, the procedure for each robot to generate its message periodically containing its some key global information retrieved from others' messages, such as the highest ID in the system.
 %
-During the algorithm execution, a spanning tree of the communication graph will be constructed by the robots for the purpose of navigation.
+During the algorithm execution, the robots will construct a spanning tree of the communication graph for the purpose of navigation.
 %
 %Section~\ref{sec:sptree} describe 
 Therefore, the detail of constructing a spanning tree by each robot using only local communication is also discussed in this section.
@@ -49,8 +49,10 @@ Finally, in Section~\ref{sec:exp} we evaluate our algorithm by conducting groups
 \label{sec:vacancy}
 One side effect of the stateless formation algorithm in Chapter~\ref{chp:mrf1} is the frequent formation ``destruction'' during the algorithm executes. 
 %
-That is, even some robots reach positions have formed 
-a lattice at time, their formation may be destroyed by other robots passing over. 
+Imagine that a cluster of robots reach positions and have formed 
+a lattice.
+If some other robots, whose authorities are higher than the authority of the cluster's root, are passing over. 
+The existing lattice formation may be destroyed and the cluster of robots would re-organize themselves by constructing a new authority tree.
 
 
 Figure~\ref{fig:destruction} shows an example, in which initially three robots $r_0, r_1, r_3$ form an authority tree, while robot $r_6$ forms another authority by itself.
@@ -88,9 +90,9 @@ and does not yet have the maximum number of neighbors allowed by its role in the
 lattice graph.
 
 \begin{defn}
-  Let $r_s$ denote a stable robot and let $u$ denote a role vertex $u$ for
-  $r_s$.  For each out-edge $e_{u}^w$ of $u$ in the lattice graph, there is a
-  pose $\hat{p}$ corresponding to the vertex $w$. 
+  For a stable robot $r_s$ with a role vertex $u$,
+  there is a pose $\hat{p}$ corresponding to the vertex $w$
+  corresponding each out-edge $e_{u}^w$ of $u$ in the lattice graph. 
   If there is no stable robot
   at $\hat{p}$, then $(\hat{p}, w)$ is a \textbf{vacancy} of $r_s$.
   (If, by chance, there is an \emph{unstable} robot at $\hat{p}$,
@@ -99,7 +101,7 @@ lattice graph.
 
 
 Each stable robot periodically checks its surroundings for an open vacancy 
-in terms of Algorithm~\ref{alg:vacancy}, in which the procedure of computing a vacancy for a stable robot is described. 
+in terms of Algorithm~\ref{alg:vacancy}, which describes the procedure of computing a vacancy for a stable robot. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{algorithm}
@@ -126,11 +128,11 @@ in terms of Algorithm~\ref{alg:vacancy}, in which the procedure of computing a v
 \end{algorithm}
 
 
-Consider the lattice graph for a repeating square pattern  (Figure~\ref{fig:sq}), in Figure~\ref{fig:vacancy}, an example shows that robot $r_6$
+Consider the lattice graph for a repeating square pattern (Figure~\ref{fig:sq}), in Figure~\ref{fig:vacancy}, an example shows that robot $r_6$
 is the stable robot with the highest ID and has three vacancies computed in terms of the
 lattice graph in Figure~\ref{fig:sq}. 
 %
-The robot with the second highest ID $r_5$ is also stable and already a neighbor of $r_6$.
+The robot with the second highest ID $r_5$ is also stable and is already a neighbor of $r_6$.
 %
 The unstable robot with the highest ID is robot $r_4$, which is moving toward the vacancy ahead of $r_6$.  
 %
@@ -159,11 +161,12 @@ communication graph.
 
 The principal global information includes: 
 \begin{enumerate}
-\item the \textbf{highest ID} among all robots in the network;
-\item the \textbf{root robot}: the stable robot who has the highest ID and at least one vacancy, it will be elected by others as the root of the spanning tree;
-\item the \textbf{most important vacancy}: we order the vacancies of the root robot according to the numerical order of their corresponding vertices' IDs, then choose the first one as the most important vacancy;
+\item The \textbf{highest ID} among all robots in the network.
+\item The \textbf{root robot}: the stable robot who has the highest ID and at least one vacancy. 
+    It will be elected by others as the root of the spanning tree.
+\item The \textbf{most important vacancy}: we order the vacancies of the root robot according to the numerical order of their corresponding vertices' IDs, then choose the first one as the most important vacancy.
 %\item the highest ID among all unstable robot;
-\item the \textbf{relocate robot}: the unstable robot who has the highest ID, it should relocate to the most important vacancy.
+\item The \textbf{relocate robot}: the unstable robot who has the highest ID, it should relocate to the most important vacancy.
 \end{enumerate}
 
 
@@ -179,7 +182,7 @@ Specifically, a robot
 rejects information for which its own ID appears in the
 ``pathFromRoot'' or ``pathFromRelocate'' lists.
 %
-The memory consumption for the message passing process is upper-bounded by a value linear to the number of the robots in the system. 
+The memory consumption for the message passing process is upper bounded by a value linear to the number of the robots in the system. 
 
 \begin{table}
 \caption{Data included in each message.}
@@ -246,8 +249,8 @@ the robot can correctly decide whether it is or is not the highest ID robot.
 %
 The robot that does have the highest ID can then become stable.
 %
-Second, the robots use the communication timeout in a similar way to identify
-the unstable robot with the highest ID.  
+Second, the robots use the communication timeout to identify
+the unstable robot with the highest ID in the same way as identifying the highest ID.  
 %
 This robot then becomes the relocate
 robot, and begins navigating toward the most important vacancy.
@@ -290,8 +293,8 @@ based on the incoming messages from its neighbors.
 %
 Each robot can determine the highest ID by repeatedly comparing its own ID with the highest IDs transmitted by neighbors.
 %
-The robots compute the highest ID unstable robot and the highest ID stable
-robot with vacancy in a similar way.
+% The robots compute the highest ID unstable robot and the highest ID stable
+% robot with vacancy in a similar way.
 
 Moreover, in the same communication process, the robots construct a spanning
 tree of their communication graph rooted at the highest ID stable robot with
@@ -303,8 +306,7 @@ Each robot without stable neighbors chooses the unstable neighbor with the minim
 %
 A special exception, designed to reduce unnecessary movements, is that no robot chooses the relocate robot as its parent, if it has another neighbor with the same or fewer hops to the root.  
 %
-Ties, if any, are broken in favor of the
-highest ID.  
+Ties, if any, are broken in favor of the highest ID.  
 
 
 Algorithm~\ref{alg:msg} briefly illustrates the communication process in which a robot reasons about the principle global information and its role in the spanning tree.
@@ -425,7 +427,7 @@ bounded range of each of its children.
 In turn, each child moves close enough to its parent to enable the parent to
 make progress in spite of the NCLB constraint.
 %
-Specifically, each moving robot computes in the intersection of of the bounded
+Specifically, each moving robot computes in the intersection of the bounded
 ranges of its children.  
 %
 This intersection region forms a ``safe region'' such
@@ -440,7 +442,7 @@ Recall the scenario in Figure~\ref{fig:vacancy}, robot $r_4$ is moving towards t
 %
 With the NCLB policy, robot $r_4$ computes an intermediate goal $g_4$ within the safe region of $r_2, r_3$ (shaded region), since it is an ascendant of the two robots, as shown in Figure~\ref{fig:nclb}.
 
-The movement strategy is divided into three cases.
+The movement strategy falls into three cases.
 \begin{enumerate}
   \item If a robot is stable, or it is not in the moving subtree, then it does
   not move.
@@ -469,7 +471,7 @@ because the children (which must exist to get an empty safe region) will only
 move toward the robot.  
 %
 Movements that decrease the distance between robots
-cannot break their connectivity.  
+can not break their connectivity.  
 %
 If \hbox{$d_s < \range - v\dt$}, then the safe
 region will eventually be non-empty (Figure~\ref{fig:safedist2}).
@@ -485,7 +487,7 @@ It then changes its
 state from unstable to stable, triggering the communication process to identify
 the next relocate robot and the next vacancy.  
 %
-After each robot has moved to a
+After each robot moved to a
 vacancy, the formation is complete, and the algorithm terminates upon
 discovering that no unstable robots remain.
 
@@ -517,7 +519,7 @@ In this section, we prove that our algorithm enables the robots to form the desi
 \begin{lem}
 \label{lem:connected}
     Given a set of robots $R =\{r_1, \ldots, r_n\}$, if the
-    communication graph is connected at time $t$, then using our motion
+    communication graph is connected at time $t$, then using the motion
     strategy, the communication graph stays connected at time $t+\dt$.
 \end{lem}
 
@@ -540,7 +542,7 @@ In this section, we prove that our algorithm enables the robots to form the desi
     tree, it must be a connected graph.
 \end{proof}
 
-With lemma~\ref{lem:connected}, the robots'
+With Lemma~\ref{lem:connected}, the robots'
 communication graph is guaranteed to be connected from an initial connected one.
 %
 As a result, the relocate robot can reach a vacancy by backtracking the its path from the root. 
@@ -552,14 +554,14 @@ input lattice graph.
 \begin{thm}
     Given a set of robots $R =\{r_1, \ldots, r_n\}$, if the
     communication graph is initially connected, robots will reach
-    positions satisfying the input lattice graph with bounded time steps.
+    positions satisfying the input lattice graph with bounded-time steps.
 \end{thm}
 
 \begin{proof}
     Our algorithm sequentially drives a robot, in a decreasing order of their IDs, to a vacancy until no more unstable robots remain in the system. 
     %
     Since the robot with the highest ID never moves, there
-    are maximum $n-1$ robots to be relocated. 
+    are the maximum $n-1$ robots to be relocated. 
     %
     An upper bound of the
     total execution time of the system could be:
@@ -649,7 +651,7 @@ confirming our analysis.
   %
   The first reason is that when
   executing the new algorithm, every robot needs a communication timeout
-  to confirm the change of its states, and an movement timeout if it is
+  to confirm the change of its states, and a movement timeout if it is
   supposed to move. 
   %
   Moreover, each timeout scales with the size of the
@@ -754,9 +756,11 @@ Another feature of this algorithm is the NCLB motion strategy that maintains the
 
 However, there are two major limitations for this approach:
 \begin{enumerate}
-\item inefficient performance: each time only one robot moves to a vacancy, and the travel distance of each relocation process is far from optimal;
-\item lack of the robustness and error-tolerance: in contrast to the primary algorithm, the new approach may encounter failures when some robots in the systems fail to work properly. Take Figure~\ref{fig:safedist2} as an example, if robot $r_4$ does not perform message passing or fails to move, then the desired lattice can not be formed correctly, and the algorithm will never terminate. 
-Another scenario is that, when some new robots with IDs higher than any robot's ID in the system are added, the algorithm may not response well. Consider Figure~\ref{fig:forty_sq_comp}, the bottom figure has shown that forty robots already formed a repeating square pattern. If a new robot with its ID higher than any one is added to the network, then the robots can not re-organize themselves because there is no way for those stable robots to reset their status back to unstable.
+\item Inefficient performance: each time only one robot moves to a vacancy, and the travel distance of each relocation process is far from optimal.
+\item Lack of the robustness and error-tolerance: in contrast to the primary algorithm, the new approach may encounter failures when some robots in the systems fail to work properly. Take Figure~\ref{fig:safedist2} as an example, if robot $r_4$ does not perform message passing or fails to move, then the desired lattice can not be formed correctly, and the algorithm will never terminate. 
+Another scenario is that, when some new robots with IDs higher than any robot's ID join in the system, the algorithm may not response well. 
+Consider Figure~\ref{fig:forty_sq_comp}, the bottom figure has shown that forty robots already formed a repeating square pattern. 
+If a new robot, whose ID is higher than any other robots, joins in the network, then the robots can not re-organize themselves because there is no way for those stable robots to reset their status back to unstable.
 \end{enumerate}
 
 
