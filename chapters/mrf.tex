@@ -4,8 +4,8 @@
 In this chapter, we address a multi-robot lattice formation problem.
 %
 Consider a set of robots, in which each
-robot can only use local information, 
-we focus on a problem that the robots want to form an arbitrary lattice patterns autonomously.
+robot can only use local information.
+We focus on a problem in which the robots want to form an arbitrary lattice patterns autonomously.
 
 
 The remaining sections of this chapter are organized as follows. 
@@ -20,19 +20,19 @@ Section~\ref{sec:latt-graph} introduces the graph concepts we have used to repre
 %
 Section~\ref{sec:mrf-eval} defines two criteria we have used to evaluate our formation algorithms.
 %
-The concepts of robot model, the lattice graph, and the evaluation criteria are commonly used by two types of formation algorithms in Chapter~\ref{chp:mrf1} and Chapter~\ref{chp:mrf2}.
+The concepts of robot model, the lattice graph, and the evaluation criteria are commonly used by two different formation algorithms in Chapter~\ref{chp:mrf1} and Chapter~\ref{chp:mrf2}.
 
 %\clearpage
 \section{Related Work}
 \label{sec:related-mrf}
 
-A distributed solution is powerful and efficient to many applications of the multi-robot systems,
-such as deploying multiple robots or large-scale sensor networks to execute the searching or sensing tasks. 
+Distributed solutions are powerful and efficient for many applications of multi-robot systems,
+such as deploying multiple robots or large-scale sensor networks to execute searching or sensing tasks. 
 %
-Previously, a lot of work had been done on the multi-robot lattice formation
+Previously, a lot of work has been done on the multi-robot lattice formation
 problem using distributed methods. 
 %
-Fujibayashi, Murata, Sugawara and Yamamura proposed a probabilistic-based control algorithm to generate the triangular lattice pattern~\cite{FujMurSugYam02}. 
+Fujibayashi, Murata, Sugawara and Yamamura proposed a probabilistic control algorithm to generate the triangular lattice pattern~\cite{FujMurSugYam02}. 
 %
 Hanada, Lee and Chong constructed an algorithm to form separated triangular lattices and then reunify
 them as a whole in an environment with obstacles~\cite{HanLeeCho07}.  
@@ -45,13 +45,13 @@ triangular, square, and hexagonal lattices~\cite{FujMurSugYam02, HanLeeCho07,
 %  
 Robots can quickly form specific lattice patterns using attractive or repulsive forces to adjust their positions based on only measurements of range and bearing to nearby robots.  
 %
-W. Spears, D. Spears, Heil, Zarzhitsky, and Hamann discussed the swarm intelligence and applied PF-based
+W. Spears, D. Spears, Heil, Zarzhitsky, and Hamann discussed swarm intelligence and applied PF-based
 methods to systems with multiple particle robots to form hexagonal lattices~\cite{SpeSpeHamHei04}.  
 %
 Martinson and Payton extended the PF-based algorithm by adding an extra alignment step before applying the virtual force among robots.  
 %
-The robots first move to parallel lines using compasses and then form square lattice using 
-the virtual force without suffering from local minima~\cite{MarPay2005}.  
+The robots first move to parallel lines using compasses and then form a square lattice using 
+the virtual force, without suffering from local minima~\cite{MarPay2005}.  
 %
 Navarro, Pugh, Martinoli, and Mat{\'\i}a implemented a PF-based algorithm as a finite state machine, 
 so that robots without holonomic assumption can form the triangular lattice~\cite{NavPugMarMat09}.  
@@ -62,11 +62,11 @@ Mullen, Monekosso, Barman, and Remagnino designed a cooperative formation contro
 Their robots coordinate with each other to determine the centroids of hexagonal cells and place
 virtual robot nodes in those positions to avoid local minima~\cite{MulMonBarRem13}. 
 %
-Prabhu, Li, and McLurkin designed a local error correction algorithm to detect and correct the misplacement in the hexagonal lattice formation using artificial forces~\cite{PraLiMcLu12}.
+Prabhu, Li, and McLurkin designed a local error correction algorithm to detect and correct misplacements in a hexagonal lattice formation using artificial forces~\cite{PraLiMcLu12}.
 
 
-Nevertheless, both of the probabilistic-based control formation algorithms 
-and the virtual-force-based methods have a common limitation: 
+Nevertheless, both probabilistic control formation algorithms 
+and virtual-force-based methods have a common limitation: 
 they are used only to form exclusively one specific lattice
 pattern which is known to the algorithm designer.
 
@@ -80,7 +80,7 @@ Since the control law is given by the gradient of the implicit function which is
 Ikemoto, Hasegawa, Fukuda, and Matsuda described a gradual pattern formation approach for homogeneous robots to form miscellaneous geometric shapes.
 They proposed a Turing morphogenetic function~\cite{Turing37} to generate patterns based on local information~\cite{IkeHasFukMat05}. 
 %
-Under this approach, the final pattern is always generated from a circle pattern formed by robots in
+Under this approach, the final pattern is always generated from a circle pattern formed by robots in the
 previous step. Thus, it is difficult to use this approach to form any repeated
 pattern.
 
@@ -102,12 +102,12 @@ Both algorithms require only local communication.
 %
 One limitation is that these algorithms do not guarantee the optimal assignment. 
 %
-Moreover, the task-assignment-based algorithms require the robots to have knowledge of all the tasks in advance.  
+Moreover, task-assignment-based algorithms require the robots to have knowledge of all the tasks in advance.  
 %
-Macdonald extended the work of Michael et al.~\cite{MicZavKumPap08} by assuming the robots can acquire their
+MacDonald extended the work of Michael et al.~\cite{MicZavKumPap08} by assuming the robots can acquire their
 tasks online.  
 %
-In his thesis, he applied the iterative closest point algorithm~\cite{RusLev01} in order to match a set of
+In MacDonald's thesis, he applied the iterative closest point algorithm~\cite{RusLev01} in order to match a set of
 robot positions to the set of model data of the target formations~\cite{Mac11}.  
 %
 The author showed finally the target formations were asymptotically stable using his improved method if each robot knows relative positions of all other robots, but the algorithm will not converge if
@@ -129,7 +129,7 @@ pattern remains unchanged~\cite{LiuShe12}.
 %
 They addressed this morphing problem in terms of the task assignment problem incorporated with the graph matching problem~\cite{Lov86}. 
 %
-The authors represented the robots routing trajectories using the Euclidean graph.  
+The authors represented the robots routing trajectories using a Euclidean graph.  
 %
 These trajectories are projected from the augmenting paths in the bipartite graph 
 so that an optimal formation morphing can be achieved~\cite{LiuShe12}.
@@ -140,13 +140,13 @@ positions in the global sense.
 %
 Hence, they are expensive and difficult to apply directly to a large-scale multi-robot system. 
 %
-Our algorithm offers each robot a way to represent the desired formation using a graph.
+Our algorithms offer each robot a way to represent the desired formation using a graph.
 %
 Different from the Euclidean graph in Liu and Shell's work~\cite{LiuShe12},
 we assign the rigid body transformation to each graph edge so that the graph
 reflects both location and orientation relationship between two vertices. 
 %
-Consequently, in Chapter~\ref{chp:mrf1}, we describe a primary algorithm letting robots 
+Consequently, in Chapter~\ref{chp:mrf1}, we describe a primary algorithm enabling robots 
 distribute the computation of task assignments and destinations using local sensing
 and communication in its body coordinate frame.
 
@@ -155,10 +155,10 @@ We have observed that the disconnection of the robots' communication
 graph has a major negative impact on the final formation quality in our
 primary algorithm~\cite{SonOKa14}. 
 %
-We have designed a novel motion plan to enforce the connectivity of robots' communication,
-motivated by a multi-robot recovery problem.
+Therefore, we have designed a novel motion plan to enforce the connectivity of robots' communication.
+%motivated by a multi-robot recovery problem.
 %
-In Chapter~\ref{chp:mrf2}, we have contributed a method to maintain a global
+In Chapter~\ref{chp:mrf2}, we also have contributed a method to maintain a global
 spanning tree constructed from local communication, 
 without using the distributed task assignment idea.
 
@@ -178,7 +178,7 @@ navigation guide to lead the robots back to the root.
 We have developed a different strategy to construct a spanning tree of the communication
 graph. 
 %
-In contrast to their approach, which drived the maximum number of leaves to
+In contrast to their approach, which drives the maximum number of leaves to
 one goal, our plan is, in our spanning tree, 
 relocating only one robot to a specified goal position, 
 while generating small but
@@ -195,7 +195,7 @@ so that any pair of two robots can decide the numerical order of their IDs.
 %
 We describe the robot model as following.
 \begin{enumerate}
-\item Robot pose and coordinate frames: for a robot $r_i$, denote its pose using
+\item Robot pose and coordinate frames: For a robot $r_i$, denote its pose using
   $p_i = (x_i, y_i, \theta_i)$. A pose $p_i$ consists of a position and an
   orientation, expressed in an arbitrary but fixed global coordinate frame for
   modeling purposes. Write the pose of $r_i$ at time $t$ as $p_i(t)$.  Also
@@ -215,18 +215,18 @@ We describe the robot model as following.
   instead, only the information in their body frames are used. 
   Denote the local pose of robot $r_j$ in the body frame of robot $r_i$ using
   $p_j^{(i)} = (x_j^{(i)}, y_j^{(i)}, \theta_j^{(i)})$.
-\item Robot motion: assume each robot can move forward with maximum
-  linear velocity $v\mx$ and can rotate in place with unbounded
+\item Robot motion: Assume each robot can move forward with maximum
+  linear velocity $v_{max}$ and can rotate in place with unbounded
   angular velocity.
-\item Robot neighbor: assume each robot can sense and
+\item Robot neighbors: Assume each robot can sense and
   communicate with other robots within a short distance from its
   position, called the robot's \textit{range} and written as $\range$.
   The other robots within that range are called the \textit{neighbors}
   of that robot.
-\item Robot observation: assume the sensors of each robot can generate
+\item Robot observations: Assume the sensors of each robot can generate
   a collection of observations consisting of neighbors' IDs and poses
   in view of robot's body frame.
-\item Robot message: each robot broadcasts messages to its neighbors
+\item Robot messages: Each robot broadcasts messages to its neighbors
   containing information used by robots to make decisions (details are
   described in Chapter~\ref{chp:mrf1} and Chapter~\ref{chp:mrf2}). 
 \end{enumerate}
@@ -248,7 +248,7 @@ them.
 Two assumptions here, namely synchronous clocks and unbounded angular velocity, 
 would of course be quite difficult to realize in a practical multi-robot system. 
 %
-These assumptions are used to simplify the connectivity analysis in Lemma~\ref{lem:boundedrange} in Chapter~\ref{chp:mrf1}, 
+These assumptions are used to simplify the connectivity analysis in Lemma~\ref{lem:boundedrange} in Chapter~\ref{chp:mrf1} and Chapter~\ref{chp:mrf2}, 
 and are not crucial to the correctness of the algorithm.
 
 
@@ -267,23 +267,24 @@ One core contribution is that we have introduced a graph definition to represent
 The intuition is, we want each robot to be associated with one lattice graph vertex, 
 and the outgoing edges of that vertex will correspond to the relative poses of that robot's neighbors when the lattice is correctly formed.
 %
-Figure~\ref{fig:edgetrans} shows a simple example that the positions of two
-robots satisfy the given lattice graph, in which a robot with the role $w$ is
+Figure~\ref{fig:edgetrans} shows a simple example in which the positions of two
+robots satisfy the given lattice graph. 
+A robot with the role $w$ is
 at pose $(l\cos{\alpha}, l\sin{\alpha}, \beta-\alpha)$ relative a robot with the role of
 $u$. Here the role functions are: $f(r_i) = u, f(r_j) = w$.
 
 
 The lattice graph in Figure~\ref{fig:sq} represents a repeating square lattice pattern, 
-in which one node has four outgoing edges connecting itself. 
+in which one node has four outgoing edges connecting to itself. 
 %
 The graph also reflects local neighborhood relationships:
 %
-Every pair of poses satisfying the rigid-transformation of an outgoing edge is a partial component of the repeating square pattern.
+Every pair of poses satisfying the rigid-body transformation of an outgoing edge is a component of the repeating square pattern.
 %
 Figure~\ref{fig:hex} shows an example of the lattice graph used to represent a
 repeating hexagon lattice, in which there are two nodes, each one has three outgoing edges connecting to the other one. 
 %
-In order to show that our algorithm is powerful even when the robots want to form some complicated patterns, 
+To show that our algorithm is sufficient for complicated patterns, 
 we have designed a lattice graph representing a repeating octagon-square lattice pattern shown in Figure~\ref{fig:octagonsquare}.
 %
 
@@ -294,6 +295,21 @@ we have designed a lattice graph representing a repeating octagon-square lattice
   \label{fig:edgetrans}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%TODO Penrose tiling 
+
+\begin{defn}
+  Given a lattice graph $G=(V, E)$ and a set of robots
+    $R = \{ r_1, \ldots, r_n \}$,
+  we say that $R$ \textbf{satisfies} $G$ if there exists a function
+    $f: R \rightarrow V$
+  that preserves the neighborhood structure of $G$.
+  %
+  Specifically, for any $i$ and $j$, if $r_i$ and $r_j$ are neighbors, 
+  there must exist an edge
+  $e_u^w: \edge{f(r_i)}{}{f(r_j)}$ in $E$, such that 
+      $f(r_i) = u$,
+      $f(r_j) = w$, and $\Tr(r_j) = \Tr(r_i) \Tr(e_{u}^w)$.
+\end{defn}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}
@@ -348,24 +364,10 @@ we have designed a lattice graph representing a repeating octagon-square lattice
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%TODO Penrose tiling 
 
-\begin{defn}
-  Given a lattice graph $G=(V, E)$ and a set of robots
-    $R = \{ r_1, \ldots, r_n \}$,
-  we say that $R$ \textbf{satisfies} $G$ if there exists a function
-    $f: R \rightarrow V$
-  that preserves the neighborhood structure of $G$.
-  %
-  Specifically, for any $i$ and $j$, if $r_i$ and $r_j$ are neighbors, 
-  there must exist an edge
-  $e_u^w: \edge{f(r_i)}{}{f(r_j)}$ in $E$, such that 
-      $f(r_i) = u$,
-      $f(r_j) = w$, and $\Tr(r_j) = \Tr(r_i) \Tr(e_{u}^w)$.
-\end{defn}
 
 \subsection{Lattice Graph Constraint}
-However, the graph definition of a lattice may describe some geometric patterns contradicting themselves. 
+The graph definition of a lattice may describe a geometric pattern that contradicts itself. 
 To guarantee a pattern is represented properly using a lattice graph, we define a constraint, termed ``self-consistent'', for a lattice graph, so that the represented pattern will not contradict itself by forcing pairs of robots to be mutual neighbors, with roles that are not adjacent in the lattice graph. 
 %
 Figure~\ref{fig:self-consistent-graph} shows a comparison between a simple
@@ -379,7 +381,7 @@ lattice graph that is not self-consistent with one that is self-consistent.
   $$ \lgpath{u}{\Tr(e_u^{k})}{\Tr(e_m^{w})}{w}, \mbox{ and } 
     \lgpath{u}{\Tr(e_u^{j})}{\Tr(e_n^{z})}{z}, $$
   for which the distance between two ending nodes is less than or equal to
-  $\range$, there exist edges between $w$ and $z$.
+  $\range$, there exist edges between $w$ and $z$ labeled with the correct rigid-body transformation.
 \end{defn}
 
 
@@ -391,25 +393,29 @@ lattice graph that is not self-consistent with one that is self-consistent.
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-Meanwhile, the self-consistent property is an important constraint for our algorithm to generate correct output.
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}
     \centering
     \input{tikzfig/selfcons_noncons.tex}
+    \label{fig:lg1}
+\end{figure}
+\begin{figure}
+    \centering
+    \input{tikzfig/whirlpool.tex}
+    \label{fig:lg2}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Figures~\ref{fig:lg1}, \ref{fig:lat1} and \ref{fig:lg2} illustrate another example of a comparison between a self-consistent lattice graph and a lattice graph that is not self-consistent. 
+The self-consistent property is an important constraint for our algorithm to generate correct output. Figure~\ref{fig:lg1} illustrates another example of a comparison between a self-consistent lattice graph and a lattice graph that is not self-consistent. 
 %
-For the range $\range$, we assume $1 < \range < \sqrt{2}$, 
-the graph in Figure~\ref{fig:lg1} contains a node with two outgoing edges, on the above edge, we apply rotation of $90^{\circ}$ and translation $(0, 1)$ in order to get the adjacent pose; whereas on the below edge, we apply translation of $(0, -1)$ and then rotation of $-90^{\circ}$ to get the other adjacent pose. 
+For the range $\range$, we assume $1 < \range < \sqrt{2}$.
+The graph in Figure~\ref{fig:lg1} contains a node with two outgoing edges. 
+On the above edge, we apply rotation of $0^{\circ}$ and translation $(1,0)$ in order to get the adjacent pose; whereas on the below edge, we apply translation of $(-1,0)$ and then rotation of $0^{\circ}$ to get the other adjacent pose. 
 %
-Figure~\ref{fig:lat1} shows four robots at positions satisfying the
-lattice graph in Figure~\ref{fig:lg1}. 
+% Figure~\ref{fig:lat1} shows four robots at positions satisfying the
+% lattice graph in Figure~\ref{fig:lg1}. 
 
-Similar to the graph in Figure~\ref{fig:lg1}, but we apply the rotation of $45\sqrt{2}^{\circ}$ to the outgoing edges, 
+Similar to the graph in Figure~\ref{fig:lg1}, but we apply the rotation of $\sqrt{2}^{\circ}$ to the outgoing edges, 
 then we obtain a non-self-consistent lattice graph in Figure~\ref{fig:lg2} representing a whirlpool-like repeated pattern.
 
 % It is not practical to verify a self-consistent lattice graph in terms of the

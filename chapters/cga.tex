@@ -425,23 +425,23 @@ Figure~\ref{fig:rect-update12} and Figure~\ref{fig:rect-update34} illustrate the
 compute the approximation set $A_{k+1}$ using the approximate transition function $T\rect$ in the rectangle range space, as described in Equation~\ref{eq:trect}.
 
 \begin{enumerate}
-\item Step 1: find the minimal axis-aligned bounding box for the bounded noise set
+\item Step 1: Find the minimal axis-aligned bounding box for the bounded noise set
   $\Theta(u_k)$ of action $u_k$, $\aabb(\Theta(u_k))$. 
   Since the set $\Theta(u_k)$ is represented as a list of vertices on its boundary, this
   operation takes linear time to find the extremal coordinates in each direction
   from the vertex list.
 
-\item Step 2: compute the Minkowski sum $A_k \oplus \{ u_k \} \oplus \aabb(\Theta(u_k))$, 
+\item Step 2: Compute the Minkowski sum $A_k \oplus \{ u_k \} \oplus \aabb(\Theta(u_k))$, 
   using the result of Step 1. 
   This step takes constant time because each of the three operands is either a single point or a rectangle
   represented by its lower left and upper right corners, the results can be
   computed by adding the coordinates of the respective corners together.
 	
-\item Step 3: intersect the free state space $X\free$ with the result of Step
+\item Step 3: Intersect the free state space $X\free$ with the result of Step
   3, using the general polygon clipping algorithm~\cite{Vat92}. 
   This step yields a polygonal region that contains $\eta_k$.
 
-\item Step 4: apply the same algorithm in Step 1 to find the axis-aligned
+\item Step 4: Apply the same algorithm in Step 1 to find the axis-aligned
   bounding box of the result of Step 3. 
   Hence, we assure that the computed approximation set $A_{k+1} \in \Rrect$.
 \end{enumerate}
@@ -566,9 +566,9 @@ For a double-rectangle I-state approximation $A_k = R_1 \cup R_2$, we have
     \Output{A double-rectangle over-approximating $P$}
     $V \leftarrow $ a set containing the vertices of $P$ and its centroid\;
     $C \leftarrow $ a set containing double-rectangle approximations\;
-    \ForEach {vertex pair $p,q \in V, p \neq q$}{
+    \ForEach {$\mbox{vertex pair } p,q \in V, p \neq q$}{
         $R_1 \leftarrow \{ p \}$; $R_2 \leftarrow \{ q \}$\;
-	    \ForEach {edge $e \in P$}{
+	    \ForEach {$\mbox{edge } e \in P$}{
 		    $R_1' \leftarrow$ $\aabb(R_1 \cup e)$\;
 		    $R_2' \leftarrow$ $\aabb(R_2 \cup e)$\;
 		    \eIf{$\area(R_1' \cup R_2) < \area(R_1 \cup R_2')$}{

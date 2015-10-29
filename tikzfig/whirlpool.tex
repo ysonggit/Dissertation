@@ -1,0 +1,16 @@
+\begin{minipage}[b]{0.4\linewidth}
+    \centering
+    \begin{tikzpicture}[->,>=stealth',node distance=5cm]
+      \tikzstyle{every state}=[fill=red!50,draw=none]
+      \node[state, scale=0.7] (A)    {$0$};
+      \path (A) edge [loop right] node {\footnotesize{(1, 0, $\sqrt{2}^\circ$)}} (A)
+                edge [loop left] node {\footnotesize{(-1,0,$-\sqrt{2}^\circ$)}} (A);
+    \end{tikzpicture}
+  \end{minipage}
+  \begin{minipage}[b]{0.5\linewidth}
+    \centering
+    \begin{tikzpicture}
+    
+  \end{tikzpicture}
+  \end{minipage}
+  \caption{[left] A non-self-consistent lattice graph. [right] .}
