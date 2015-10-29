@@ -1,8 +1,8 @@
 \chapter{Task-Assignment-based Formation Algorithm}
 \label{chp:mrf1}
-In this chapter, we introduce our novel distributed solution. 
+In this chapter, we introduce our first novel distributed solution. 
 %
-The key idea of our method is letting robots construct a global structure to
+The key idea of our method is enabling robots to construct a global structure to
 organize themselves using only local information, so that we can have the
 desired lattice formed by deploying local task assignment strategy in the system. 
 %
@@ -15,15 +15,14 @@ control strategy for robots to form the desired pattern.
 %
 The remaining sections of this chapter are organized as follows. 
 %
-Section~\ref{sec:msg1} describes an important terminology of ``authority'' used in our primary formation algorithm for robots' autonomous organization.
-%
-The detail of our primary formation algorithm is described in Section~\ref{sec:auth} and Section~\ref{sec:task-assgin-algo}, including the
+Section~\ref{sec:msg1} describes the important terminology of ``authority'' used in this algorithm.
+The details of the algorithm are described in Section~\ref{sec:auth} and Section~\ref{sec:task-assgin-algo}, including the
 procedure of the authority tree construction and local task assignment deployment. 
 %
 In Section~\ref{sec:mrf-exp}, we evaluate our algorithm through simulations, 
-and conclude the effectiveness of our algorithm based on the experimental results. 
+and evaluate the effectiveness of our algorithm based on the experimental results. 
 %
-Finally, Section~\ref{sec:conc-mrf1} lists the pros and cons of the algorithm. 
+Finally, Section~\ref{sec:conc-mrf1} lists the advantages and disadvantages of the algorithm. 
 Furthermore, the limitations of this algorithm motivate us to extend our work on the formation problem and contribute a new method described in Chapter~\ref{chp:mrf2}.
 
 %\clearpage
@@ -31,7 +30,7 @@ Furthermore, the limitations of this algorithm motivate us to extend our work on
 \label{sec:msg1}
 An important feature of this distributed formation algorithm is that it is stateless.
 %
-Each robot makes movements and messages to broadcast based on its recent observations and received messages.
+Each robot makes movements and constructs messages to broadcast based on its recent observations and received messages.
 %
 With this design, our algorithm is robust to the scenarios when some robots fails to react with others or some new robots are added to the system.
 
@@ -39,9 +38,9 @@ Robots coordinate with their neighbors by exchanging messages.
 %
 Each robot periodically broadcasts a message containing:
   \begin{enumerate}
-  \item an \textbf{authority} -- the level of importance of the sender robot
-  \item a \textbf{role} -- an integer identifying a lattice graph vertex as the role currently selected by the sender robot
-  \item a \textbf{matching} of the neighbors of the sender robot to outgoing edges of its
+  \item An \textbf{authority} -- the level of importance of the sender robot (see Section~\ref{sec:auth}).
+  \item A \textbf{role} -- an integer identifying a lattice graph vertex as the role currently selected by the sender robot.
+  \item A \textbf{matching} of the neighbors of the sender robot to outgoing edges of its
   role vertex, or to a dummy ``no-match'' element.
  \end{enumerate}
 
@@ -57,17 +56,18 @@ Section~\ref{sec:task-assgin-algo} presents the procedure of assigning local tas
 \section{Authority}
 \label{sec:auth}
 
-Our method takes advantage of the task assignment problem, a key idea
-is to determine the ``leader'' that assigns tasks among nearby robots. 
+Our method takes advantage of the task assignment problem.
+A key idea is to determine the local ``leader'' that assigns tasks among nearby robots. 
 %
-Unlike many work applying the auction-based strategies for the task assignment algorithms~\cite{Ber88, FarIocNarZip06, ZavSpePap08, MicZavKumPap08, ChoBruHow09, ChaHenIAS13, LiuShe13}, 
+Unlike prior work applying the auction-based strategies for task assignment~\cite{Ber88, FarIocNarZip06, ZavSpePap08, MicZavKumPap08, ChoBruHow09, ChaHenIAS13, LiuShe13}, 
 our work contributes to produce a stable structure for robots to do the 
 task assignment without multiple iterations of bidding for tasks.
 
 
-The idea to make our local strategy reach a finally global static state is the authority carried by each robot.  
+The idea to make our local strategy reach a global static state is the authority carried by each robot.  
 %
-First, we define the term ``authority'' associated with a comparison operation, then we describe the algorithm for the robots to construct a tree structure.
+First, we define the term ``authority'' and its associated comparison operation, 
+then we describe the algorithm for the robots to construct a tree structure using these authorities.
 
 \begin{defn}
   An \textbf{authority} is an ordered list of robot IDs
@@ -107,8 +107,16 @@ The number of neighbors selected to form matching does not exceed the out-degree
 %
 The descendant robot produces an authority to transmit with its next message by appending its own ID to the authority of its parent. 
 %
-Term the robot who could not find any neighbors to be its parent \textbf{orphans}, if it is not matched by every neighbor who has higher authority than its own.
-
+If a robot is not matched by every neighbor who has higher authority than its own, than it is an \textbf{orphan} robot (Figure~\ref{fig:orphan}).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}
+  \centering
+  \includegraphics[scale=0.75]{figs/sq17}
+  \label{fig:orphan}
+  \caption{All red robots have reached positions satisfying given input square lattice graph.
+           The green robot is an orphan robot.}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Additionally, to avoid creating an authority tree with cycle, each robot ignores any authority that already contains its own ID.
 %
@@ -132,7 +140,7 @@ Generally, each robot repeats following steps every $\dt$ seconds:
 \begin{enumerate}
 \item Step 1: Robots use the matching contained in received messages to
   construct an authority tree based on their IDs.
-\item Step 2: Each robot decides its ``role'', which is essentially a vertex in the lattice graph, it is supposed to play in the formation.  
+\item Step 2: Each robot decides its ``role'', which is essentially a vertex in the lattice graph, it will play in the formation.  
     %
     The root of the authority tree selects the first vertex in the lattice graph as its role; 
     the descendant robots in the authority tree accept their roles as part of the task assignment from their parents. 
@@ -142,36 +150,37 @@ Generally, each robot repeats following steps every $\dt$ seconds:
   algorithm~\cite{Kuh55}. 
   %
   Each robot broadcasts a message containing its assignment, along with the authority value, and the opening position, if any, to its neighbors.
-\item Step 5: Each robot computes its destination based on the assigned task and moves toward to the assigned destination according the motion strategy discussed in part~\ref{sec:motion}.
+\item Step 5: Each robot computes its destination based on the assigned task and moves toward to the assigned destination according the motion strategy discussed in Section~\ref{sec:motion}.
 \end{enumerate}
 
 \subsection{Task Assignment}
 \label{subsec:task}
 
 
-Once the authority tree has been constructed, each root robot selects the first vertex of the lattice graph as its role; the descendant robot accepts a role from its parent.
+Once the authority tree has been constructed, each root robot selects the first vertex of the lattice graph as its role; the descendant robots accept roles from their parents.
 
-For a robot $r_i$ who already selects its role, it needs to establish a
+For a robot $r_i$ which has already selected its role, it needs to establish a
 relationship, called \textbf{matching} between its neighbors and the outgoing edges from its role vertex. 
 \begin{defn}
 \label{def:matching}
   Given a robot $r_i$ and a role vertex $u$ for that robot, the lattice
   graph edge set
-    $E=\{\emptyset, e_{u}^w, e_{u}^z, \ldots\}$
+    $O=\{\emptyset, e_{u}^w, e_{u}^z, \ldots\}$
   contains a null value $\emptyset$ and all outgoing edges from vertex $u$.  
   Set
     $I=\{\id_a, \id_b, \ldots \}$
   contains the IDs of the neighbors of $r_i$.  
   Then a
-  \textbf{matching for $r_i$} is a function $g : I \rightarrow E$ that
+  \textbf{matching for $r_i$} is a function $g : I \rightarrow O$ that
   associates each neighbor ID with either a lattice graph edge from its role vertex or with the null value.
 \end{defn}
 
 For example, in Figure~\ref{fig:authtree}, robot $r_2$ is an orphan robot to the root robot $r_3$, with $g(\id_{r_2}) = \emptyset$.
 
-Assume robot $r_i$ has $N_i$ neighbors and its out-degree is $E_i$. 
+Assume that robot $r_i$ has $N_i$ neighbors and its out-degree is $E_i$. 
 %
-We interpret this problem as a task assignment problem~\cite{Kuh55, Mun57}: given $\min(N_i, E_i)$ agents and $E_i$ tasks, we create a $\min(N_i, E_i)\times E_i$ matrix containing the cost of assigning each agent to a task. 
+We interpret this problem as a task assignment problem~\cite{Kuh55, Mun57}: 
+Given $\min(N_i, E_i)$ agents and $E_i$ tasks, we create a $\min(N_i, E_i)\times E_i$ matrix containing the cost of assigning each agent to a task. 
 %
 The goal is finding the cost minimizing assignment. 
 %
@@ -205,7 +214,7 @@ For a root robot $r_i$, in its cost matrix:
     its desired position if matched with the $k^{th}$ outgoing edge (both computed in the body frame of $r_i$).  
 \end{enumerate}
 
-We apply the Hungarian algorithm~\cite{Kuh55} to solve the assignment problem in polynomial time. 
+We apply the Hungarian algorithm~\cite{Kuh55} to solve the assignment problem. 
 %
 Each robot executes the Hungarian algorithm on the cost matrix
 to compute matching of its neighbors to its outgoing edges, by minimizing the total Euclidean distance. 
@@ -213,7 +222,7 @@ to compute matching of its neighbors to its outgoing edges, by minimizing the to
 The algorithm takes $O(N_i^3)$ time complexity.
 
 %
-The center robot, which is a root, finds matching for four of its
+In Figure~\ref{fig:formsquare}, the center robot, which is a root, finds matching for four of its
 neighbors and assign them to desired poses in its body frame, meanwhile, there
 is no matching found for one of its neighbors.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -243,7 +252,7 @@ Similar to the process of computing matching for the root robot, the steps to co
     Specifically, the role of a descendant is the terminal vertex of
   the edge associated with its own ID in that matching. 
 \item A descendant robot, in its matching, ensures that the parent is
-  matched with one of its outgoing edges, whose transformation is the inverse of the edge matching it.
+  matched with the outgoing edge, whose transformation is the inverse of the edge matching it.
 \end{enumerate}
 
 Figure~\ref{fig:formsquare} shows the procedure of computing the matching by a root robot and a descendant robot, respectively. 
@@ -266,7 +275,7 @@ However, $r_4$ must force its matching with $r_6$ to be consistent with $r_6$'s 
 %
 Recall that $r_6$ already assigns a role vertex to $r_4$, which corresponds to the position behind the root $r_6$ (the red hollow arrow in Figure~\ref{fig:formsquare-des}).
 %
-Therefore, $r_4$ finds the reverse edge with a terminal node matching that destination in its own frame, that is, the position in front of its head. 
+Therefore, $r_4$ finds the reverse edge with a terminal node matching that destination in its own frame, that is, the position in front of it. 
 %
 Then it matches the root to this edge with itself and computes the local optimal matching for the rest of its neighbors $r_2, r_1$.
 
@@ -290,9 +299,9 @@ Each robot determines its destination at the final step of the algorithm.
 %
 We apply different moving plans for robots of different status:
 \begin{enumerate}
-\item Root -- the robot who has the highest authority among neighbors -- does not move;
-\item descendant -- the robot who has a neighbor with higher authority and has matching with it -- moves toward assigned destination subject to Lemma~\ref{lem:boundedrange};
-\item orphan -- the robot whose neighbors' authorities are higher but have no task assigned to it -- moves away from its current ``parent''.
+\item Root -- the robot who has the highest authority among its neighbors -- does not move.
+\item Descendant -- the robot who has a neighbor with higher authority and has matching with it -- moves toward assigned destination subject to Lemma~\ref{lem:boundedrange}.
+\item Orphan -- the robot whose neighbors' authorities are higher but have no task assigned to it -- moves away from its current ``parent'' (the robot with the highest authority among its neighbors).
 \end{enumerate} 
 
 
@@ -341,11 +350,11 @@ then applying triangle inequality to Equation~\ref{eq:d1} and Equation~\ref{eq:d
     \label{fig:boundedrange}
 \end{figure}
 
-Lemma~\ref{lem:boundedrange} guarantees that a descendant robot always connects with its parent. 
+Lemma~\ref{lem:boundedrange} guarantees that a descendant robot always remains connected with its parent. 
 
 An orphan robot is a special descendant who does not have an actual task assigned by its parent's matching, our motion plan simply drives the orphan robot away from its ``parent''. 
 %
-In detail, if the orphan robot receives a message from its parent, in which it is matched to $\emptyset$, it concludes that its current location is too congested with robots around.
+In detail, if the orphan robot receives a message from its parent, in which it is matched to $\emptyset$, it concludes that its current location is too congested.
 %
 In response, it moves directly away from its parent for a fixed period of time, equal to $2\range/v$.
 %
@@ -370,13 +379,13 @@ Recall that Figure~\ref{fig:octsq-init-final} shows a simulation result of formi
 We address an acknowledgement to Liu for his open-source contribution of the Hungarian algorithm implementation~\cite{LiuShe11, LiuShe12a}.
 
 
-We conducted experiments in an obstacle-free environment to measure the algorithm execution time (the units of measurement are the simulation steps) and final lattice formation quality. 
+We conducted experiments to measure the algorithm execution time (the units of measurement are the simulation steps) and final lattice formation quality. 
 %
 Three types of repeating lattice patterns: hexagon (Figure~\ref{fig:hex}), square (Figure~\ref{fig:sq}), and octagon-square (Figure~\ref{fig:octagonsquare}) were used to test our algorithm.
 %
 For each lattice pattern, we performed a series of experiments, in which we varied the number of robots $n$ between $50$ and $250$ in increments of $50$.  
 %
-For each $n$, $50$ trials of experiments were tested with uniform distributions of initial poses randomly generated given distinct random seeds.
+For each $n$, $50$ trials were tested with uniform distributions of initial poses randomly generated given distinct random seeds.
 
 Figures~\ref{fig:octagonsquare-init-final}, \ref{fig:hex-init-final} and \ref{fig:sq-init-final} show the initial and final formations of three trials of simulations, whereas Table~\ref{tab:mrf1-exp-data} shows the corresponding results.
 %
@@ -450,7 +459,7 @@ The initial distribution of robots' positions impacts the final formation qualit
 Figure~\ref{fig:exp-qual} shows that when the number of robots is small and robots are sparsely distributed, most robots do not have enough neighbors around, thus the average formation fulfillment ratio is less than the result from a denser distribution. 
 %
 Moreover, Figure~\ref{fig:exp-qual} shows a trend that the fulfillment ratio for
-a repeated pattern increases as the number of robots increases and become closer to $1$.
+a repeated pattern increases as the number of robots increases.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}
@@ -464,7 +473,7 @@ a repeated pattern increases as the number of robots increases and become closer
 
 Additionally, we tested the robustness of our algorithm with another set of experiments.
 %
-Figure~\ref{fig:robust} shows one test case in which we removed some robots from the system when the system reached the static state at the first time.
+Figure~\ref{fig:robust} shows one test case in which we removed some robots from the system when the system reached the static state for the first time.
 %
 Initially, $150$ robots formed a repeating hexagon pattern using the lattice graph (Figure~\ref{fig:hex}) as the input.  
 %
@@ -489,14 +498,23 @@ After randomly removed $50$ robots, it took another $1685$ simulation steps for 
 
 Finally, we argue that our algorithm works well with non-repeating lattice patterns if we vary the problem assumptions.
 %
-For example, as shown in Figure~\ref{fig:p-letter}, in which five robots formed a ``P''
-letter given a complete five-node lattice graph. 
-%
 In this case, a successful execution of our algorithm requires additional constraints: 
 \begin{enumerate}
   \item The number of robots is the same as the number of vertices in the lattice graph.
   \item All robots are able to observe and communicate with each other initially.
 \end{enumerate}
+Because for a non-repeating lattice with finite number of vertices, 
+we can simply use a lattice graph with the same number of nodes to represent the lattice.
+%
+For example, as shown in Figure~\ref{fig:p-letter}, %in which five robots formed a 
+a complete five-node lattice graph on the left represents the right ``P''-letter-like shape. 
+%
+It requires $n=5$ robots for a complete formation that satisfies the lattice graph with fulfillment ratio $1$.
+If $n<5$, robots can never complete the desired shape. 
+Otherwise, if there are more than $n>5$ robots, the $n-5$ robots must be either orphan robots or form another cluster of formations. 
+Both cases do not satisfy the given lattice graph. 
+% 
+Without the second constraint, then the robots can not distributed the tasks correctly to form the complete lattice.
 \begin{figure}
     \centering
   \begin{minipage}[b]{0.45\linewidth}
@@ -515,7 +533,7 @@ In this case, a successful execution of our algorithm requires additional constr
 %\clearpage
 \section{Conclusions} 
 \label{sec:conc-mrf1}
-Above all, we conclude the pros and cons of our algorithm in this chapter.
+Above all, we conclude the strengths and weaknesses of our algorithm in this chapter.
 
 First, the major advantages are listed as follows.
 \begin{enumerate}
@@ -528,8 +546,8 @@ First, the major advantages are listed as follows.
 However, two limitations of this primary version are:
 \begin{enumerate}
 \item The algorithm can not guarantee all the robots eventually reach static positions to form a global lattice pattern, since the lattice graph only reflects local relationships among robots' poses (Figure~\ref{fig:hex-qual}).
-\item Meanwhile, current motion strategy brings side effect on the final formation quality since the orphan robots, who are not assigned any destinations, might move to positions isolated with others.
+\item The motion strategy brings side effect on the final formation quality since the orphan robots, who are not assigned any destinations, might move to positions isolated from other robots.
 \end{enumerate}
 
-In the next chapter, we have designed another decentralized formation algorithm to solve these limitations, so that robots can form the desired global patterns in bounded time. 
+In the next chapter, we present another decentralized formation algorithm to solve these limitations, so that robots can form the desired global patterns in bounded time. 
 Meanwhile, the lattice formation quality is improved.
