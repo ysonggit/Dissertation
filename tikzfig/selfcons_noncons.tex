@@ -1,35 +1,32 @@
-\begin{minipage}[b]{0.4\linewidth}
+\begin{minipage}[b]{0.45\linewidth}
     \centering
     \begin{tikzpicture}[->,>=stealth',node distance=5cm]
       \tikzstyle{every state}=[fill=red!50,draw=none]
       \node[state, scale=0.7] (A)    {$0$};
-      \path (A) edge [loop right] node {\footnotesize{(1, 0, $0^\circ$)}} (A)
-                edge [loop left] node {\footnotesize{(-1,0,$0^\circ$)}} (A);
+      \path (A) edge [loop right] node {\footnotesize{(1, 0, $45^\circ$)}} (A)
+                edge [loop left] node {} (A); %{\footnotesize{(-1,0,$45^\circ$)}} (A);
     \end{tikzpicture}
-    % \caption{Lattice graph A.}
-    % \label{fig:lg1}
   \end{minipage}    
-  \begin{minipage}[b]{0.5\linewidth}
-    \centering
-    \begin{tikzpicture}
-    \draw[fill=blue] (3,2.92) -- (2.5,2.75) -- (3,2.58) -- (2.875,2.75) -- cycle;
-    \draw[fill=blue] (2,2.92) -- (1.5,2.75) -- (2,2.58) -- (1.875,2.75) -- cycle;
-    \draw[fill=blue] (1,2.92) -- (0.5,2.75) -- (1,2.58) -- (0.875,2.75) -- cycle;
-    \draw[dashed](2.5,2.75) -- (1.5,2.75);
-    \draw[dashed](1.5,2.75) -- (0.5,2.75);
-    \draw[dashed](0.5,2.75) -- (-0.5,2.75);
-    \draw[dashed](2.5,2.75) -- (4,2.75);
-  \end{tikzpicture}
-  \end{minipage}
-  \caption{[left] Lattice graph representing an infinite line. [right] Three robots satisfying the left graph.}
-%   \begin{minipage}[b]{0.3\linewidth}
+%   \begin{minipage}[b]{0.5\linewidth}
 %     \centering
-%     \begin{tikzpicture}[->,>=stealth',node distance=5cm]
-%       \tikzstyle{every state}=[fill=red!50,draw=none]
-%       \node[state, scale=0.7] (A)    {$0$};
-%       \path (A) edge [loop above] node {\footnotesize{(0, 1, $45\sqrt{2}^\circ$)}} (A)
-%                 edge [loop below] node {\footnotesize{(0, -1, $-45\sqrt{2}^\circ$)}} (A);
-%     \end{tikzpicture}
-%     \caption{Lattice graph B.}
-%     \label{fig:lg2}
-% \end{minipage}
+%     \begin{tikzpicture}
+%     \draw[fill=blue] (3,2.92) -- (2.5,2.75) -- (3,2.58) -- (2.875,2.75) -- cycle;
+%     \draw[fill=blue] (2,2.92) -- (1.5,2.75) -- (2,2.58) -- (1.875,2.75) -- cycle;
+%     \draw[fill=blue] (1,2.92) -- (0.5,2.75) -- (1,2.58) -- (0.875,2.75) -- cycle;
+%     \draw[dashed](2.5,2.75) -- (1.5,2.75);
+%     \draw[dashed](1.5,2.75) -- (0.5,2.75);
+%     \draw[dashed](0.5,2.75) -- (-0.5,2.75);
+%     \draw[dashed](2.5,2.75) -- (4,2.75);
+%   \end{tikzpicture}
+%   \end{minipage}
+   \begin{minipage}[b]{0.45\linewidth}
+     \centering
+     \begin{tikzpicture}[->,>=stealth',node distance=5cm]
+       \tikzstyle{every state}=[fill=red!50,draw=none]
+       \node[state, scale=0.7] (A)    {$0$};
+       \path (A) edge [loop right] node {\footnotesize{(0, 1, $45\sqrt{2}^\circ$)}} (A)
+                 edge [loop left] node {} (A); %{\footnotesize{(0, -1, $-45\sqrt{2}^\circ$)}} (A);
+     \end{tikzpicture}
+ \end{minipage}
+ \caption{[left] A self-consistent lattice graph. 
+            [right] A non-self-consistent lattice graph.}

@@ -298,6 +298,7 @@ we have designed a lattice graph representing a repeating octagon-square lattice
 %TODO Penrose tiling 
 
 \begin{defn}
+\label{def:selfconsist}
   Given a lattice graph $G=(V, E)$ and a set of robots
     $R = \{ r_1, \ldots, r_n \}$,
   we say that $R$ \textbf{satisfies} $G$ if there exists a function
@@ -380,7 +381,10 @@ we have designed a lattice graph representing a repeating octagon-square lattice
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Penrose tiling~\cite{Pen79, Gum96}.
+The lattice graph is suitable for representing repeated patterns, but not the non-periodic patterns, 
+such as the Penrose tiles~\cite{Pen79, Gum96}. 
+(Figure~\ref{fig:penrose} shows two Penrose tiles, which are pairs of tiles placed aperiodically, called ``kite'' and ``dart''.)
+
 
 \subsection{Lattice Graph Constraint}
 The graph definition of a lattice may describe a geometric pattern that contradicts itself. 
@@ -417,8 +421,17 @@ lattice graph that is not self-consistent with one that is self-consistent.
     \label{fig:lg1}
 \end{figure}
 \begin{figure}
-    \centering
-    \input{tikzfig/whirlpool.tex}
+\centering
+    \begin{minipage}[b]{0.45\linewidth}
+        \centering
+        \includegraphics[width=0.7\textwidth]{figs/badlg-lat}
+    \end{minipage}
+    \begin{minipage}[b]{0.45\linewidth}
+        \centering
+        \includegraphics[width=0.65\textwidth]{figs/swirl}
+    \end{minipage}
+    \caption{[left] An octagon lattice represented by the self-consistent lattice graph in Figure~\ref{fig:lg1}.
+    [right] The non-self-consistent lattice graph in Figure~\ref{fig:lg1} will produce the pattern contradicting itself.}
     \label{fig:lg2}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -426,14 +439,16 @@ lattice graph that is not self-consistent with one that is self-consistent.
 The self-consistent property is an important constraint for our algorithm to generate correct output. Figure~\ref{fig:lg1} illustrates another example of a comparison between a self-consistent lattice graph and a lattice graph that is not self-consistent. 
 %
 For the range $\range$, we assume $1 < \range < \sqrt{2}$.
-The graph in Figure~\ref{fig:lg1} contains a node with two outgoing edges. 
-On the above edge, we apply rotation of $0^{\circ}$ and translation $(1,0)$ in order to get the adjacent pose; whereas on the below edge, we apply translation of $(-1,0)$ and then rotation of $0^{\circ}$ to get the other adjacent pose. 
-%
-% Figure~\ref{fig:lat1} shows four robots at positions satisfying the
-% lattice graph in Figure~\ref{fig:lg1}. 
+The left graph in Figure~\ref{fig:lg1} contains a node with two outgoing edges. 
+Its right outgoing edge associates a translation $(1,0)$ and a rotation of $45^{\circ}$ in order to get the adjacent pose.
+(The left edge is labeled rotation of $-45^{\circ}$ then translation of $(1,0)$ to get the other adjacent pose.) 
+This lattice graph represents a single octagon pattern shown in Figure~\ref{fig:lg2} (left).
 
-Similar to the graph in Figure~\ref{fig:lg1}, but we apply the rotation of $\sqrt{2}^{\circ}$ to the outgoing edges, 
-then we obtain a non-self-consistent lattice graph in Figure~\ref{fig:lg2} representing a whirlpool-like repeated pattern.
+The right graph in Figure~\ref{fig:lg1} is similar to the left graph but is not self-consistent.
+Its right outgoing edge associates a translation of $(1,0)$ but follows a rotation of $45\sqrt{2}^{\circ}$ to get the adjacent pose. 
+However, this graph produces a pattern contradicting to itself.
+In Figure~\ref{fig:lg2} right, starting from the blue robot, the red robot and the blue robot satisfy the right outgoing edge of the right graph in Figure~\ref{fig:lg1}, such as the yellow one and the red one, the green one and the yellow one, and so on.
+Although the cyan robot and the purple robot satisfy the right outgoing edge of the graph, the cyan one and the blue one are, for example, contradict to the graph in terms of Definition~\ref{def:selfconsist}.
 
 % It is not practical to verify a self-consistent lattice graph in terms of the
 % Definition~\ref{def:selfconsistent}, that is, simply using a brute force method
@@ -497,7 +512,6 @@ graph in Figure~\ref{fig:hex} but with different fulfillment ratios.
     \begin{minipage}[b]{0.95\linewidth}
         \centering
         \includegraphics[width=0.75\textwidth]{figs/bad-hexagon}
-        
     \end{minipage}
     \begin{minipage}[b]{0.95\linewidth}
         \centering

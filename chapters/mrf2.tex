@@ -717,10 +717,11 @@ For the new algorithm, we set both of the communication timeout and the movement
 %
 We have measured the execution time of both algorithms using the simulation steps as unit. 
 
-Figure~\ref{fig:forty_sq_comp} shows the result of one trial of simulation, in which forty robots performed formation using both algorithms, with the same distribution of their initial poses.
+
+
+Figures~\ref{fig:forty_sq_comp}, \ref{fig:forty_hex_comp}, \ref{fig:forty_octsq_comp} show three trials simulations of the prior algorithm and new algorithm, given the initial poses distribution of $40$ robots in Figure~\ref{fig:init40}. 
 %
 Figures~\ref{fig:sq_comp}, \ref{fig:hex_comp}, \ref{fig:octsq_comp} show the experiments results for three lattice patterns.
-
 
 From these results, we observe that the execution time for the new
 algorithm in this chapter scales quadratically as the number of robots increases,
@@ -743,8 +744,15 @@ confirming our analysis.
   %
   Another reason is
   that the old algorithm is locally optimal with the sum of traveled
-  distance, whereas the new algorithm often schedules a long travel distance for a relocate robot because it only considers the combinatorial
-  relationship of the robots.
+  distance, whereas the new algorithm often schedules a long travel distance for a relocate robot because it only considers the combinatorial relationship of the robots.
+  %
+  
+  Additionally, the average execution time of the old algorithm here is slightly higher than the results in Figure~\ref{fig:exp-time} in Section~\section{sec:mrf1}. 
+  Because in previous experiments, initial poses were uniformly generated. 
+  Here in each experiment, the initial communication graph is connected (e.g. Figure~\ref{fig:init40}).
+  Robots take longer time to resolve the task assignment, since in this case,
+  a robot owns more neighbors than the scenario in which the initial poses were uniformly distributed in a planar environment.
+  
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   \begin{figure}
     \centering   
@@ -755,27 +763,41 @@ confirming our analysis.
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \begin{figure}
         \centering
-        \begin{minipage}{0.75\linewidth}
+        \begin{minipage}{0.45\linewidth}
             \centering
-            \includegraphics[width=0.9\textwidth]{figs/sq40_671_0_6}
+            \includegraphics[width=0.95\textwidth]{figs/sq40_447_0_675}
         \end{minipage}
+        \begin{minipage}{0.45\linewidth}
+            \centering
+            \includegraphics[width=0.9\textwidth]{figs/sq40_new}
+        \end{minipage}
+        \caption{[left] Final square lattice using the first formation algorithm in Chapter~\ref{chp:mrf1} $\Quality=0.675$. [right] Final square pattern using the new formation algorithm $\Quality=0.7875$.}
         \label{fig:forty_sq_comp}
     \end{figure}
     \begin{figure}
         \centering
-        \begin{minipage}{0.75\linewidth}
+        \begin{minipage}{0.45\linewidth}
             \centering
-            \includegraphics[width=0.9\textwidth]{figs/hex40_551_0_666}
+            \includegraphics[width=0.95\textwidth]{figs/hex40_520_0_65}
         \end{minipage}
+        \begin{minipage}{0.45\linewidth}
+            \centering
+            \includegraphics[width=0.9\textwidth]{figs/hex40_new}
+        \end{minipage}
+        \caption{[left] Final hexagon lattice using the first formation algorithm in Chapter~\ref{chp:mrf1}, $\Quality=0.65$. [right] Final hexagon pattern using the new formation algorithm $\Quality=0.817$.}
         \label{fig:forty_hex_comp}
     \end{figure}
     \begin{figure}
         \centering
-        \begin{minipage}{0.75\linewidth}
+        \begin{minipage}{0.45\linewidth}
             \centering
-            \includegraphics[width=0.9\textwidth]{figs/octsq40_498_0_633}
+            \includegraphics[width=0.95\textwidth]{figs/octsq40_516_0_55}
         \end{minipage}
-        \caption{[top] Final square lattice using the first formation algorithm in Chapter~\ref{chp:mrf1}. [bottom] Final square pattern using the new formation algorithm.}
+        \begin{minipage}{0.45\linewidth}
+            \centering
+            \includegraphics[width=0.9\textwidth]{figs/octsq40_new}
+        \end{minipage}
+        \caption{[left] Final octagon-square lattice using the first formation algorithm in Chapter~\ref{chp:mrf1} $\Quality=0.55$. [right] Final octagon-square pattern using the new formation algorithm $\Quality=0.833$.}
         \label{fig:forty_octsq_comp}
     \end{figure}
 
