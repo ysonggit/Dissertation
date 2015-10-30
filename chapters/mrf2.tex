@@ -718,7 +718,14 @@ For the new algorithm, we set both of the communication timeout and the movement
 We have measured the execution time of both algorithms using the simulation steps as unit. 
 
 
-
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \begin{figure}
+    \centering   
+    \includegraphics[scale=0.45]{figs/initSnapshot}
+    \caption{Initial poses of $40$ robots.}
+    \label{fig:init40}
+  \end{figure}
+  
 Figures~\ref{fig:forty_sq_comp}, \ref{fig:forty_hex_comp}, \ref{fig:forty_octsq_comp} show three trials simulations of the prior algorithm and new algorithm, given the initial poses distribution of $40$ robots in Figure~\ref{fig:init40}. 
 %
 Figures~\ref{fig:sq_comp}, \ref{fig:hex_comp}, \ref{fig:octsq_comp} show the experiments results for three lattice patterns.
@@ -747,19 +754,12 @@ confirming our analysis.
   distance, whereas the new algorithm often schedules a long travel distance for a relocate robot because it only considers the combinatorial relationship of the robots.
   %
   
-  Additionally, the average execution time of the old algorithm here is slightly higher than the results in Figure~\ref{fig:exp-time} in Section~\section{sec:mrf1}. 
+  Additionally, the average execution time of the old algorithm here is slightly higher than the results in Figure~\ref{fig:exp-time} in Section~\ref{sec:mrf-exp}. 
   Because in previous experiments, initial poses were uniformly generated. 
   Here in each experiment, the initial communication graph is connected (e.g. Figure~\ref{fig:init40}).
   Robots take longer time to resolve the task assignment, since in this case,
   a robot owns more neighbors than the scenario in which the initial poses were uniformly distributed in a planar environment.
   
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  \begin{figure}
-    \centering   
-    \includegraphics[scale=0.45]{figs/initSnapshot}
-    \label{fig:init40}
-    \caption{Initial poses of $40$ robots.}
-  \end{figure}
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \begin{figure}
         \centering
