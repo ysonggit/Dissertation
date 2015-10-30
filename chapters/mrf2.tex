@@ -1,11 +1,11 @@
 \chapter{Provably-Correct Formation Algorithm}
 \label{chp:mrf2}
-Follow up on the limitations of our stateless formation algorithm proposed in Chapter~\ref{chp:mrf1}, we describe a new version of a stateful formation algorithm in this Chapter.
+To resolve the limitations of our stateless formation algorithm proposed in Chapter~\ref{chp:mrf1}, we describe a new version of a stateful formation algorithm in this chapter.
 
 
 The basic idea is to construct the desired lattice one element at a time. 
 %
-We simply recognize a robot's priority by identifying its ID's numerical order among the system, namely, the highest ID denotes the highest priority, the second highest ID denotes the second highest priority, and so on.
+We recognize a robot's priority by identifying its ID's numerical order among the system, namely, the highest ID denotes the highest priority, the second highest ID denotes the second highest priority, and so on.
 %
 The robot with the highest ID acts as a ``root'' for the lattice.  
 %
@@ -47,12 +47,12 @@ Finally, in Section~\ref{sec:exp} we evaluate our algorithm by conducting groups
 %\clearpage
 \section{Vacancy}
 \label{sec:vacancy}
-One side effect of the stateless formation algorithm in Chapter~\ref{chp:mrf1} is the frequent formation ``destruction'' during the algorithm executes. 
+One side effect of the stateless formation algorithm in Chapter~\ref{chp:mrf1} is the frequent formation ``destruction'' as the algorithm executes. 
 %
 Imagine that a cluster of robots reach positions and have formed 
 a lattice.
 If some other robots, whose authorities are higher than the authority of the cluster's root, are passing over. 
-The existing lattice formation may be destroyed and the cluster of robots would re-organize themselves by constructing a new authority tree.
+The existing lattice formation would be destroyed and the cluster of robots would re-organize themselves by constructing a new authority tree.
 
 
 Figure~\ref{fig:destruction} shows an example, in which initially three robots $r_0, r_1, r_3$ form an authority tree, while robot $r_6$ forms another authority by itself.
@@ -68,7 +68,7 @@ Since robot $r_6$ owns the highest authority among all the robots, so these four
 \label{fig:destruction}
 \end{figure}
 
-Due to these nondeterministic destruction phenomena, it is really difficult for us to provide 
+Due to these unpredictable destruction phenomena, it is difficult for us to provide 
 an upper bound of the algorithm execution time. 
 %
 In order to avoid this side effect, we want each robot to maintain a boolean state variable 
@@ -84,7 +84,7 @@ that it has the highest ID over all robots (see Section~\ref{sec:com}), or the
 robot finishes navigating to an open vacancy (see Section~\ref{sec:mov}).
 
 
-The key idea of our algorithm is letting the unstable robot with the highest ID relocate itself 
+The key idea of our algorithm is enabling the unstable robot with the highest ID to relocate itself 
 to a position where it acts as a neighbor of the stable robot who owns the highest ID 
 and does not yet have the maximum number of neighbors allowed by its role in the
 lattice graph.
@@ -101,34 +101,48 @@ lattice graph.
 
 
 Each stable robot periodically checks its surroundings for an open vacancy 
-in terms of Algorithm~\ref{alg:vacancy}, which describes the procedure of computing a vacancy for a stable robot. 
+using Algorithm~\ref{alg:vacancy}. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{algorithm}
 %  \scriptsize
 \SetKwInOut{Input}{input}
 \SetKwInOut{Output}{output}
-\Input{inMsgs, observations}
-\Output{myVacancy}
-   vacancies $\leftarrow \{\}$\; 
-  \ForEach{outEdge of myRole}{
-    pose $\leftarrow$ getPosFromTransformation(outEdge)\;
-    insert Vacancy(pose, outEdge.terminal) to vacancies\;
+\SetKwData{OutEdge}{outEdge}
+\SetKwData{Pose}{pose}
+\SetKwData{NPose}{neighborPose}
+\SetKwData{Obsv}{observations}
+\SetKwArray{Vacancies}{vacancies}
+\SetKwData{V}{Vacancy}
+\SetKwData{InMsgs}{inMsgs}
+\SetKwData{TNode}{terminalVertex}
+\SetKwData{NID}{neighborID}
+\SetKwData{Stable}{stable}
+\SetKwData{MyV}{my vacancy}
+\SetKwData{Empty}{empty}
+\SetKwData{Null}{null}
+\Input{\InMsgs, \Obsv}
+\Output{\MyV}
+  \Vacancies $\leftarrow \{\}$\; 
+  \ForEach{\OutEdge}{
+    \Pose $\leftarrow$ getPosFromTransformation(\OutEdge)\;
+    insert \V(\Pose, \OutEdge.\TNode) to \Vacancies\;
   } 
-  \ForEach{pose in vacancies}{
-    \ForEach{neighborPose in observations}{
-        \If{inMsgs[neighborID].stable AND neighborPose $=$ pose}{
-            remove pose from vacancies\;
+  \ForEach{$\Pose \mbox{\textbf{ in }} \Vacancies$}{
+    \ForEach{$\NPose \mbox{\textbf{ in }} \Obsv$}{
+        \If{$\InMsgs[\NID].\Stable$ \mbox{\textbf{ and }} $\NPose = \Pose$}{
+            remove \Pose from \Vacancies\;
         }
     }
   }
-  \Return vacancies.empty ? null : vacancies[0]\;
+  \Return \Vacancies.\Empty $?$ \Null $: \Vacancies[0]$\;
   \caption{Compute a vacancy of a stable robot}
   \label{alg:vacancy}
 \end{algorithm}
 
 
-Consider the lattice graph for a repeating square pattern (Figure~\ref{fig:sq}), in Figure~\ref{fig:vacancy}, an example shows that robot $r_6$
+Consider the lattice graph for a repeating square pattern (Figure~\ref{fig:sq}).
+Figure~\ref{fig:vacancy} shows an example in which robot $r_6$
 is the stable robot with the highest ID and has three vacancies computed in terms of the
 lattice graph in Figure~\ref{fig:sq}. 
 %
@@ -151,11 +165,11 @@ will change its state from unstable to stable after it reaches this pose.
 %\clearpage
 \section{Communication Procedure}
 \label{sec:com}
-We assume that the robots communicate by broadcasting messages to the
+We assume that the robots communicate by broadcasting messages to their
 neighbors every $\dt$ seconds.
 %
 The main objective for the communication is to retrieve the principal global
-information of the system and then to construct a spanning tree of the
+information of the system and to construct a spanning tree of the
 communication graph.
 
 
@@ -170,12 +184,12 @@ The principal global information includes:
 \end{enumerate}
 
 
-We define a message type for robots to pass around.
+We define a message type for robots to broadcast.
 %
 Table~\ref{tab:msg} lists the data contained in the message for robots to acquire the principal global information. 
 %
 The purpose of tracing the paths from the root and the relocate robots is
-to prevent the ``rumor,'' in which a robot relies upon the
+to prevent the ``rumors,'' in which a robot relies upon the
 information generated originally by itself.  
 %
 Specifically, a robot
@@ -215,8 +229,7 @@ The memory consumption for the message passing process is upper bounded by a val
         & path to the relocate robot\\
     \bottomrule
   \end{tabular}
-
-\label{tab:msg}
+  \label{tab:msg}
 \end{table}
 
 For all the robots to reach consensus about the principal global
@@ -259,25 +272,38 @@ robot, and begins navigating toward the most important vacancy.
 %  \scriptsize
 \SetKwInOut{Input}{input}
 \SetKwInOut{Output}{output}
-\Input{myPreMsg, myCurMsg, TIMEOUT}
+\SetKwData{MyPreMsg}{myPreMsg}
+\SetKwData{MyCurMsg}{myCurMsg}
+\SetKwData{TIMEOUT}{TIMEOUT}
+\SetKwData{HighestID}{highestID}
+\SetKwData{RelocateID}{relocateID}
+\SetKwData{CurrentTime}{currentTime}
+\SetKwData{RootID}{rootID}
+\SetKwData{MyID}{myID}
+\SetKwData{V}{vacancy}
+\SetKwData{Arr}{I am at the vacancy pose}
+\SetKwData{LCH}{lastChangeToHighestID}
+\SetKwData{LCR}{lastChangeToRelocateID}
+\SetKwData{LCRt}{lastChangeToRootID}
+\Input{\MyPreMsg, \MyCurMsg, \TIMEOUT}
 \Output{void}
-  \If{myPreMsg.highestID$\neq$ myCurMsg.highestID}{
-    LAST_CHANGE_TO_HIGHEST_ID = currentTime\;
+  \If{\MyPreMsg.\HighestID $\neq$ \MyCurMsg.\HighestID}{
+     \LCH = \CurrentTime\;
   }
-  \If{myPreMsg.relocateID$\neq$ myCurMsg.relocateID}{
-    LAST_CHANGE_TO_RELOCATE_ID = currentTime\;
+  \If{\MyPreMsg.\RelocateID $\neq$ \MyCurMsg.\RelocateID}{
+     \LCR = \CurrentTime\;
   }
-  \If{myPreMsg.rootID$\neq$ myCurMsg.rootID}{
-    LAST_CHANGE_TO_ROOT_ID = currentTime\;
+  \If{\MyPreMsg.\RootID$\neq$ \MyCurMsg.\RootID}{
+     \LCRt = \CurrentTime\;
   }
-  \If{currentTime - LAST_CHANGE_TO_HIGHEST_ID $\geq$ TIMEOUT}{
-    \If{myID$=$myCurMsg.highestID}{
-        I am the stable root with role 0\;
+  \If{\CurrentTime - \LCH $\geq$ \TIMEOUT}{
+    \If{\MyID $=$\MyCurMsg.\HighestID}{
+        I become stable with role $0$\;
     }
   }
-  \If{currentTime - LAST_CHANGE_TO_RELOCATE_ID $\geq$ TIMEOUT}{
-    \If{myID$=$myCurMsg.relocateID AND I am at the vacancy pose}{
-        I become stable with the role of myCurMsg.vacancy\;
+  \If{\CurrentTime - \LCR $\geq$ \TIMEOUT}{
+    \If{$\MyID = \MyCurMsg.\RelocateID \mbox{\textbf{ and }} \Arr $}{
+        I become stable with the role of \MyCurMsg.\V\;
     }
   }
   \caption{Update robot's knowledge with communication timeout}
@@ -323,43 +349,67 @@ the message type.
 
 
 \begin{algorithm}
-%   % \algsetup{linenosize=\tiny}
-%   \scriptsize
     \SetKwInOut{Input}{input}
     \SetKwInOut{Output}{output}
-    \Input{inMsgs}
-    \Output{myMsg}
-    myMsg $\leftarrow$ empty message\;
-    myMsg.senderID $\leftarrow$ myID\;
-    myMsg.highestID $\leftarrow$ myID\;
-    myMsg.stable $\leftarrow$ stable\;
-    myVacancy $\leftarrow$ stable ? computeVacancy(inMsgs, observations) : null\;
-    myMsg.rootID $\leftarrow$ (stable \textbf{and} myVacancy $\neq$ \textbf{null}) ? myID : INT\_MIN\;
-    myMsg.relocateID $\leftarrow$ stable ? INT\_MIN : myID\;
-    eligibleMsgs $\leftarrow$ \{\}\;
-    vacancyFromMsgs $\leftarrow$ \textbf{null}\;
-    \ForEach{msg in inMsgs}{
-        myMsg.highestID $\leftarrow$ \textbf{max}(myMsg.highestID, msg.highestID)\;
-        \If{\textbf{not} msg.pathFromRoot.contains(myID) \textbf{and} \textbf{not} msg.pathFromRelocate.contains(myID) }{
-        insert msg into eligibleMsgs\;
-        \If{msg.rootID $>$ myMsg.rootID}{
-            myMsg.rootID $\leftarrow$ msg.rootID\;
-            vacancyFromMsgs $\leftarrow$ msg.vacancy\;
+    \SetKwData{InMsgs}{inMsgs}
+    \SetKwData{MyMsg}{myMsg}
+    \SetKwData{MyID}{myID}
+    \SetKwData{HighestID}{highestID}
+    \SetKwData{Stable}{stable}
+    \SetKwData{RootID}{rootID}
+    \SetKwData{Empty}{empty}
+    \SetKwData{Null}{null}
+    \SetKwData{SenderID}{senderID}
+    \SetKwData{Obsv}{observations}
+    \SetKwData{MyVacancy}{myVacancy}
+    \SetKwData{Msg}{msg}
+    \SetKwData{ParentID}{parentID}
+    \SetKwData{ParentMsg}{parentMsg}
+    \SetKwData{V}{vacancy}
+    \SetKwData{Subtree}{subtree}
+    \SetKwData{RelocateID}{relocateID}
+    \SetKwData{EM}{eligibleMsgs}
+    \SetKwData{PFR}{pathFromRelocate}
+    \SetKwData{PFRt}{pathFromRoot}
+    \SetKwData{MRtP}{minRootPath}
+    \SetKwData{MRP}{minRelocatePath}
+    \SetKwData{VFM}{vacancyFromMsgs}
+    \SetKwFunction{FuncCV}{computeVacancy}
+    \SetKwFunction{FuncGSPFRt}{getShortestPathFromRoot}
+    \SetKwFunction{FuncGSPFR}{getShortestPathFromRelocate}
+    \SetKwFunction{FuncGPM}{getParentMsg}
+    \Input{\InMsgs}
+    \Output{\MyMsg}
+    \MyMsg.\SenderID $\leftarrow$ \MyID\;
+    \MyMsg.\HighestID $\leftarrow$ \MyID\;
+    \MyMsg.\Stable $\leftarrow$ \Stable\;
+    \MyVacancy $\leftarrow$ \Stable $?$ \FuncCV(\InMsgs, \Obsv) $:$ \Null\;
+    \MyMsg.\RootID $\leftarrow$ (\Stable \mbox{\textbf{ and }} \MyVacancy $\neq$ \Null) $?$ \MyID $ : \infty$\;
+    \MyMsg.\RelocateID $\leftarrow$ \Stable $ ? \infty$ : \MyID\;
+    \EM $\leftarrow$ \{\}\;
+    \VFM $\leftarrow$ \Null\;
+    \ForEach{\Msg \mbox{\textbf{ in }} \InMsgs}{
+        \MyMsg.\HighestID $\leftarrow$ $\max$(\MyMsg.\HighestID, \Msg.\HighestID)\;
+        \If{\mbox{\textbf{ not }} \Msg.\PFRt.contains(\MyID) \mbox{\textbf{ and }} \mbox{\textbf{ not }} \Msg.\PFR.contains(\MyID) }{
+        insert \Msg into \EM\;
+        \If{\Msg.\RootID $>$ \MyMsg.\RootID}{
+            \MyMsg.\RootID $\leftarrow$ \Msg.\RootID\;
+            \VFM $\leftarrow$ \Msg.\V\;
         }
-        myMsg.relocateID $\leftarrow$ \textbf{max}(myMsg.relocateID, msg.relocateID)\;
+        \MyMsg.\RelocateID $\leftarrow \max(\MyMsg.\RelocateID, \Msg.\RelocateID)$\;
         }
     }
-    minRootPath $\leftarrow$ getShortestPathFromRoot(eligibleMsgs)\;
-    minRelocatePath $\leftarrow$ getShortestPathFromRelocate(eligibleMsgs)\;
-    myMsg.vacancy $\leftarrow$ (myID $=$ myMsg.rootID) ? myVacancy : vacancyFromMsgs\;
-    myMsg.pathFromRoot $\leftarrow$ minRootPath.append(myID)\;
-    myMsg.pathFromRelocate $\leftarrow$ minRelocatePath.append(myID)\;
-    \If{myID $\neq$ myMsg.rootID}{
-        parentMsg $\leftarrow$ getParentMsg(eligibleMsgs, myMsg, relocateID)\;
-        myMsg.parentID $\leftarrow$ parentMsg.senderID\;
-        myMsg.subtree $\leftarrow$ myID $=$ myMsg.relocateID \textbf{or} parentMsg.subtree\;
+    \MRtP $\leftarrow$ \FuncGSPFRt(\EM)\;
+    \MRP $\leftarrow$ \FuncGSPFRt(\EM)\;
+    \MyMsg.\V $\leftarrow$ (\MyID $=$ \MyMsg.\RootID) $?$ \MyVacancy $:$ \VFM\;
+    \MyMsg.\PFRt $\leftarrow$ \MRtP.append(\MyID)\;
+    \MyMsg.\PFR $\leftarrow$ \MRP.append(\MyID)\;
+    \If{\MyID $\neq$ \MyMsg.\RootID}{
+        \ParentMsg $\leftarrow$ \FuncGPM(\EM, \MyMsg, \RelocateID)\;
+        \MyMsg.\ParentID $\leftarrow$ \ParentMsg.\SenderID\;
+        \MyMsg.\Subtree $\leftarrow$ \MyID $=$ \MyMsg.\RelocateID \mbox{\textbf{ or }} \ParentMsg.\Subtree\;
     }
-    \Return myMsg\;
+    \Return \MyMsg\;
     \caption{Compute message.}
     \label{alg:msg}
 \end{algorithm}
@@ -369,33 +419,63 @@ the message type.
 %  \scriptsize
 \SetKwInOut{Input}{input}
 \SetKwInOut{Output}{output}
-\Input{eligibleMsgs, myMsg, relocateID}
-\Output{parentMsg}
-  stableMsgs $\leftarrow \{\}$\;
-  myHops $\leftarrow$ myMsg.pathFromRoot.length\;
-  \ForEach{msg $\mbox{in}$ eligibleMsgs}{
-    \If{msg.stable}{
-      insert msg to stableMsgs\;
+  \SetKwData{InMsgs}{inMsgs}
+    \SetKwData{MyMsg}{myMsg}
+    \SetKwData{MyID}{myID}
+    \SetKwData{HighestID}{highestID}
+    \SetKwData{Stable}{stable}
+    \SetKwData{RootID}{rootID}
+    \SetKwData{Empty}{empty}
+    \SetKwData{Null}{null}
+    \SetKwData{SenderID}{senderID}
+    \SetKwData{Obsv}{observations}
+    \SetKwData{MyVacancy}{myVacancy}
+    \SetKwData{Msg}{msg}
+    \SetKwData{PID}{parentID}
+    \SetKwData{PM}{parentMsg}
+    \SetKwData{V}{vacancy}
+    \SetKwData{Subtree}{subtree}
+    \SetKwData{RelocateID}{relocateID}
+    \SetKwData{EM}{eligibleMsgs}
+    \SetKwData{PFR}{pathFromRelocate}
+    \SetKwData{PFRt}{pathFromRoot}
+    \SetKwData{MRtP}{minRootPath}
+    \SetKwData{MRP}{minRelocatePath}
+    \SetKwData{VFM}{vacancyFromMsgs}
+    \SetKwData{MS}{mySteps}
+    \SetKwData{MinSteps}{minSteps}
+    \SetKwData{SM}{stableMsgs}
+    \SetKwData{MWMS}{msgWithMinSteps}
+    \SetKwData{UncleMsgs}{uncleMsgs}
+    \SetKwData{Size}{size}
+\Input{\EM, \MyMsg, \RelocateID}
+\Output{\PM}
+  %\PM $\leftarrow \{\}$\;
+  \ForEach{\Msg \mbox{\textbf{ in }} \EM}{
+    \If{\Msg.\Stable}{
+      insert \Msg to \SM\;
     }
   }
-  \If{!stableMsgs.empty}{
-    \Return msgWithMinHops in stableMsgs\;
+  \If{\mbox{\textbf{ not }} \SM.\Empty}{
+    \Return \MWMS \mbox{\textbf{ in }}  \SM\;
   }
-  minHops $\leftarrow$ myHops\;
-  uncleMsgs $\leftarrow \{\}$\;
-  minHops $\leftarrow$ min(msg.pathFromRoot.length, minHops) \textbf{for} msg in eligibleMsgs\;
-  \ForEach{msg in eligibleMsgs}{
-    \If{msg.pathFromRoot.length $=$ minHops}{
-        uncleMsgs $\leftarrow$ msg\;
+  \MinSteps $\leftarrow$ \MyMsg.\PFRt.length\;;
+  \UncleMsgs $\leftarrow \{\}$\;
+  \ForEach{\Msg \mbox{\textbf{ in }} \EM}{
+    \MinSteps $\leftarrow \min$(\Msg.\PFRt.length, \MinSteps)\;
+  }
+  \ForEach{\Msg \mbox{\textbf{ in }} \EM}{
+    \If{\Msg.\PFRt.length $=$ \MinSteps}{
+        \UncleMsgs $\leftarrow$ \Msg\;
     }
   }
-  sort uncleMsgs in descending order of messages' senderIDs
-  \If{myID $\neq$ relocateID AND !uncleMsgs.empty}{
-    \If{uncleMsgs[0].senderID $=$ relocateID}{
-        \Return uncleMsgs.size>1 ? uncleMsgs[1] : uncleMsgs[0]\;
+  sort \UncleMsgs in descending order of senderIDs\;
+  \If{\MyID $\neq$ \RelocateID \mbox{\textbf{ and }} \mbox{\textbf{ not }} \UncleMsgs.\Empty}{
+    \If{$\UncleMsgs[0].\SenderID = \RelocateID$}{
+        \Return $\UncleMsgs.\Size > 1 ? \UncleMsgs[1] : \UncleMsgs[0]$\;
     }
   }  
-  \Return uncleMsgs.empty ? myMsg : uncleMsgs[0]\;
+  \Return $\UncleMsgs.\Empty ? \Null : \UncleMsgs[0]$\;
   \caption{Select the parent and return the parent's message.}
   \label{alg:parent}
 \end{algorithm}
@@ -438,9 +518,10 @@ A robot that stays within
 its safe region is said to obey NCLB.
 
 
-Recall the scenario in Figure~\ref{fig:vacancy}, robot $r_4$ is moving towards to the vacancy ahead of robot $r_6$. 
+Recall the scenario in Figure~\ref{fig:vacancy}.
+Robot $r_4$ is moving towards to the vacancy ahead of robot $r_6$. 
 %
-With the NCLB policy, robot $r_4$ computes an intermediate goal $g_4$ within the safe region of $r_2, r_3$ (shaded region), since it is an ascendant of the two robots, as shown in Figure~\ref{fig:nclb}.
+With the NCLB policy, robot $r_4$ computes an intermediate goal $g_4$ within the safe region of $r_2, r_3$ (shaded region), since it is an ancestor of the two robots, as shown in Figure~\ref{fig:nclb}.
 
 The movement strategy falls into three cases.
 \begin{enumerate}
@@ -456,7 +537,7 @@ The movement strategy falls into three cases.
   children.
 
   \item For other robots in the moving subtree, we set a ``safe distance'',
-  denoted $d_s \in (0, \range-v\dt)$.  If the robot is within distance $d_s$ of
+  denoted $d_s = \range-v\dt$.  If the robot is within distance $d_s$ of
   its parent, it does not move.  Otherwise, moves it directly toward its parent
   while staying within its NCLB safe region.
   %
@@ -471,7 +552,7 @@ because the children (which must exist to get an empty safe region) will only
 move toward the robot.  
 %
 Movements that decrease the distance between robots
-can not break their connectivity.  
+cannot break their connectivity.  
 %
 If \hbox{$d_s < \range - v\dt$}, then the safe
 region will eventually be non-empty (Figure~\ref{fig:safedist2}).
@@ -547,7 +628,7 @@ communication graph is guaranteed to be connected from an initial connected one.
 %
 As a result, the relocate robot can reach a vacancy by backtracking the its path from the root. 
 
-Now we show that it takes finite steps for a relocate robot to reach
+Now we show that it takes a finite number of steps for a relocate robot to reach
 a vacancy, so that the location and the root robot's position satisfy the
 input lattice graph.
 
@@ -561,10 +642,10 @@ input lattice graph.
     Our algorithm sequentially drives a robot, in a decreasing order of their IDs, to a vacancy until no more unstable robots remain in the system. 
     %
     Since the robot with the highest ID never moves, there
-    are the maximum $n-1$ robots to be relocated. 
+    are at most $n-1$ robots to be relocated. 
     %
     An upper bound of the
-    total execution time of the system could be:
+    total execution time of the system is:
       $$ \T = \sum\limits_{i=1}^{n-1}\T_i + O(n), $$
     in which the trailing $O(n)$ arises from the communication timeout needed
     for the highest ID robot to become stable from initial unstable state, as discussed in Section~\ref{sec:com}.
@@ -578,7 +659,7 @@ input lattice graph.
     \begin{equation*}
      \label{eq:timebound}
       \begin{split}
-        \T_i & = \T_{timeout} + \T_{drive} + \T_{wait}  \\
+        \T_i & = \T_{\textrm timeout} + \T_{\textrm drive} + \T_{\textrm wait}  \\
         & \leq O(n)+ i\range/v + \range(n-i-1)/v \\
         & \leq O(n) + (n-1)\range/v\\
         & = O(n).
@@ -587,13 +668,13 @@ input lattice graph.
     
     This bound derives from three observations.
     %
-    First, recall that the time complexity of the communication time $\T_{timeout}$ is generally $O(n)$ (Section~\ref{sec:com}).  
+    First, recall that the time complexity of the communication time $\T_{\textrm timeout}$ is $O(n)$ (Section~\ref{sec:com}).  
     %
     Second, note that
     the distance traveled by $r_i$ from its current position to the vacancy is
     approximately equal to the geometric length of its path from the root.
     %
-    Because each robot appears at most once on that path, we have $\T_{drive}\leq i\range/v$. 
+    Because each robot appears at most once on that path, we have $\T_{\textrm drive}\leq i\range/v$. 
     %
     Finally, the maximum waiting time achieves its
     worst case when all $n-i-1$ other unstable robots are descendants and they
@@ -603,16 +684,16 @@ input lattice graph.
     starting from leaf node, one-by-one. 
     %
     Hence, the waiting time is bounded by
-    $\T_{wait}\leq(n-i-1)\range/v$.
+    $\T_{\textrm wait}\leq(n-i-1)\range/v$.
     
     Therefore, the total algorithm execution time for the robots to reach positions satisfying the input lattice graph
-    is above bounded by $O(n^2)$ steps.
+    is  $O(n^2)$ steps.
 \end{proof}
 
 %\clearpage
 \section{Experiments and Evaluations}
 \label{sec:exp}
-We have implemented our algorithms with ROS and conducted a series of simulations to test the performance of both the old and the new algorithms. 
+We have implemented our algorithms with ROS~\cite{QuiConGerFauFooLeiWheNg09} and conducted a series of simulations to test the performance of both the old and the new algorithms. 
 %
 The major objectives are:
 \begin{itemize}
@@ -641,7 +722,7 @@ Figure~\ref{fig:forty_sq_comp} shows the result of one trial of simulation, in w
 Figures~\ref{fig:sq_comp}, \ref{fig:hex_comp}, \ref{fig:octsq_comp} show the experiments results for three lattice patterns.
 
 
-From these results, we claim that the execution time for the new
+From these results, we observe that the execution time for the new
 algorithm in this chapter scales quadratically as the number of robots increases,
 confirming our analysis.  
   %
@@ -665,34 +746,48 @@ confirming our analysis.
   distance, whereas the new algorithm often schedules a long travel distance for a relocate robot because it only considers the combinatorial
   relationship of the robots.
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \begin{figure}
+    \centering   
+    \includegraphics[scale=0.45]{figs/initSnapshot}
+    \label{fig:init40}
+    \caption{Initial poses of $40$ robots.}
+  \end{figure}
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     \begin{figure}
         \centering
-        \begin{minipage}{0.7\linewidth}
+        \begin{minipage}{0.75\linewidth}
             \centering
-            \includegraphics[width=0.9\textwidth]{figs/forty_sq_init}
+            \includegraphics[width=0.9\textwidth]{figs/sq40_671_0_6}
         \end{minipage}
-        \begin{minipage}{0.7\linewidth}
-            \centering
-            \includegraphics[width=0.9\textwidth]{figs/forty_sq_old}
-        \end{minipage}
-        \begin{minipage}{0.7\linewidth}
-            \centering
-            \includegraphics[width=0.9\textwidth]{figs/forty_sq_new}
-        \end{minipage}
-        \caption{[top] Initial poses of $40$ robots. [mid] Final formation using the primary algorithm in Chapter~\ref{chp:mrf1}. [bottom] Final formation using the new algorithm.}
         \label{fig:forty_sq_comp}
+    \end{figure}
+    \begin{figure}
+        \centering
+        \begin{minipage}{0.75\linewidth}
+            \centering
+            \includegraphics[width=0.9\textwidth]{figs/hex40_551_0_666}
+        \end{minipage}
+        \label{fig:forty_hex_comp}
+    \end{figure}
+    \begin{figure}
+        \centering
+        \begin{minipage}{0.75\linewidth}
+            \centering
+            \includegraphics[width=0.9\textwidth]{figs/octsq40_498_0_633}
+        \end{minipage}
+        \caption{[top] Final square lattice using the first formation algorithm in Chapter~\ref{chp:mrf1}. [bottom] Final square pattern using the new formation algorithm.}
+        \label{fig:forty_octsq_comp}
     \end{figure}
 
   On the other side, we are confident to get a better formation
   quality by executing the new algorithm, compared with the results of
   executing the old algorithm. 
   %
-  A fact is that the new algorithm always outputs a
+  The new algorithm always outputs a
   deterministic combinatorial relationship of the given set of robots,
   regardless of the distribution of their initial poses. 
   %
-  Therefore, these
-  experimental statics show that the deviation of the fulfillment ratio
+  Therefore, deviation of the fulfillment ratio
   is always zero when performing the new algorithm.
 
 
@@ -706,38 +801,47 @@ confirming our analysis.
   
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
   \begin{figure}
-    \begin{minipage}[b]{0.9\linewidth}
+    \centering    
+    \begin{minipage}[b]{0.75\linewidth}
+    \centering  
       %trim=l b r t
       \includegraphics[trim=0.5cm 0cm 1.5cm 0,clip=true,width=\linewidth]{figs/steps_square}
     \end{minipage}
-    \begin{minipage}[b]{0.9\linewidth}
+    \begin{minipage}[b]{0.75\linewidth}
+    \centering 
       \includegraphics[trim=0.5cm 0 1.5cm 0,clip=true,width=\linewidth]{figs/ratio_square}
     \end{minipage}
-    \caption{Repeated squares pattern: [top] The average execution time with deviation. [bottom] The average fulfillment ratio with deviation.}
+    \caption{Repeated squares pattern: [left] The average execution time with deviation. [right] The average fulfillment ratio with deviation.}
     \label{fig:sq_comp}
   \end{figure}
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   \begin{figure}
-    \begin{minipage}[b]{0.9\linewidth}
+  \centering 
+    \begin{minipage}[b]{0.75\linewidth}
+    \centering 
       \includegraphics[trim=0.5cm 0cm 1.5cm 0,clip=true,width=\linewidth]{figs/steps_hexagon}
     \end{minipage}
-    \begin{minipage}[b]{0.9\linewidth}
+    \begin{minipage}[b]{0.75\linewidth}
+    \centering 
       \includegraphics[trim=0.5cm 0 1.5cm 0,clip=true,width=\linewidth]{figs/ratio_hexagon}
     \end{minipage}
-    \caption{Repeated hexagons pattern: [top] The average execution time with deviation. [bottom] The average fulfillment ratio with deviation.}
+    \caption{Repeated hexagons pattern: [left] The average execution time with deviation. [right] The average fulfillment ratio with deviation.}
     \label{fig:hex_comp}
   \end{figure}
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
   \begin{figure}
-    \begin{minipage}[b]{0.9\linewidth}
+  \centering 
+    \begin{minipage}[b]{0.75\linewidth}
+    \centering 
       \includegraphics[trim=0.5cm 0cm 1.5cm 0,clip=true,width=\linewidth]{figs/steps_octagon_square}
     \end{minipage}
-    \begin{minipage}[b]{0.9\linewidth}
+    \begin{minipage}[b]{0.75\linewidth}
+    \centering 
       \includegraphics[trim=0.5cm 0 1.5cm 0,clip=true,width=\linewidth]{figs/ratio_octagon_square}
     \end{minipage}
-    \caption{Repeated octagons and squares pattern: [top] The average execution time with deviation. [bottom] The average fulfillment ratio with deviation.}
+    \caption{Repeated octagons and squares pattern: [left] The average execution time with deviation. [right] The average fulfillment ratio with deviation.}
     \label{fig:octsq_comp}
   \end{figure}
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -757,10 +861,10 @@ Another feature of this algorithm is the NCLB motion strategy that maintains the
 However, there are two major limitations for this approach:
 \begin{enumerate}
 \item Inefficient performance: each time only one robot moves to a vacancy, and the travel distance of each relocation process is far from optimal.
-\item Lack of the robustness and error-tolerance: in contrast to the primary algorithm, the new approach may encounter failures when some robots in the systems fail to work properly. Take Figure~\ref{fig:safedist2} as an example, if robot $r_4$ does not perform message passing or fails to move, then the desired lattice can not be formed correctly, and the algorithm will never terminate. 
+\item Lack of the robustness and error-tolerance: in contrast to the primary algorithm, the new approach may encounter failures when some robots in the systems fail to work properly. Take Figure~\ref{fig:safedist2} as an example, if robot $r_4$ does not perform message passing or fails to move, then the desired lattice cannot be formed correctly, and the algorithm will never terminate. 
 Another scenario is that, when some new robots with IDs higher than any robot's ID join in the system, the algorithm may not response well. 
 Consider Figure~\ref{fig:forty_sq_comp}, the bottom figure has shown that forty robots already formed a repeating square pattern. 
-If a new robot, whose ID is higher than any other robots, joins in the network, then the robots can not re-organize themselves because there is no way for those stable robots to reset their status back to unstable.
+If a new robot, whose ID is higher than any other robots, joins in the network, then the robots cannot re-organize themselves because there is no way for those stable robots to reset their status back to unstable.
 \end{enumerate}
 
 

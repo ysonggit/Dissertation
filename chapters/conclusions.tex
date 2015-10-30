@@ -11,14 +11,14 @@ For the first problem, we have presented a geometric planning approach, and for 
 
 The first algorithm in Chapter~\ref{chp:cga} contributes to a simple data structure, called double-rectangle range space, to represent a robot's knowledge, subject to the bounded sensing and motion uncertainty. 
 %
-We claim that this geometric approach can do a better I-state over-approximation job by comparing it with existed approaches. 
+We claim that this geometric approach can do a better I-state over-approximation job by comparing it with existing approaches. 
 %
 Hence, this approach provides a robot that has limited sensing and motion ability a high success rate to complete landmark-based navigation tasks.
 %
-Additionally, we argue that the extensibility of this approach, that is, the range space of ``k-fold unions of rectangles'' is useful for more accurate I-state over-approximation with a certain level sacrificing of the computation efficiency.
+Additionally, we argue that the extensibility of this approach, that is, the range space of ``$k$-fold unions of rectangles'' is useful for more accurate I-state over-approximation with a certain level sacrifice of computation efficiency.
 %
-We realize that there may some future work to think about. 
-For example, the geometric approach to
+Some future work remains, 
+for example, it is worthwhile to consider the geometric approach to
 generate \emph{under}-approximation of the I-states.  
 %
 The discrepancy between the over- and under-approximations could then be used by the robot to estimate the quality of its representation.
@@ -27,7 +27,7 @@ We have presented two novel decentralized methods to solve the multi-robot latti
 %
 The major challenge is the constraint of using only robots' local information to form miscellaneous lattice patterns.  
 
-To let the algorithm be generally useful for constituting different lattice patterns, rather than solving only one pattern formation problem, we have created a graph representation of the desired pattern.
+We consider algorithms generally useful for constituting different lattice patterns, rather than solving only one pattern formation problem, therefore, we have created a graph representation of the desired pattern.
 %
 Both of our formation algorithms use the graph representation as input.
 
@@ -40,19 +40,18 @@ In contrast, the second formation algorithm uses scheduling-like strategy to com
 %
 The key features of the second formation algorithm also include the spanning tree construction and the ``No Child Left Behind'' motion strategy that maintains the connectivity of the communication graph during the algorithm execution.
 
-It is difficult for us to provide an estimation of time consumption for the task-assignment-based formation algorithm because of the nondeterministic deconstructions of the authority trees. 
+It is difficult for us to provide an estimation of time consumption for the task-assignment-based formation algorithm because of the unpredictable deconstructions of the authority trees. 
 %
 However, we have proved that the second formation algorithm provides an upper-bound of the execution time for robots to form desired lattice patterns.  
 %
-That is, the algorithm execution time is generally bounded by a value quadratic to the number of robots ($O(n^2)$) only, regardless of the lattice pattern to constitute.
+That is, the algorithm execution time is generally bounded by a value quadratic in the number of robots only, regardless of the lattice pattern to constitute.
 
 
 We realize currently the second formation algorithm is not efficient and robust enough,  but it has a great potential to expand itself. 
 %
 In current version there is only one robot relocating to one vacancy at a time. 
 %
-We anticipate to expand the algorithm so that multiple robots could be
-relocated to multiple vacancies at a time. 
+We anticipate to expand the algorithm so that multiple robots move to multiple vacancies at a time. 
 %
 Particularly, we expect to construct $k, 1\leq k < n$ spanning trees from the communication graph, by finding the $k$ highest ID stable robots with vacancies,
 and $k$ highest ID unstable robots in the system.
