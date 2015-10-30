@@ -275,7 +275,7 @@ However, $r_4$ must force its matching with $r_6$ to be consistent with $r_6$'s 
 %
 Recall that $r_6$ already assigns a role vertex to $r_4$, which corresponds to the position behind the root $r_6$ (the red hollow arrow in Figure~\ref{fig:formsquare-des}).
 %
-Therefore, $r_4$ finds the reverse edge with a terminal node matching that destination in its own frame, that is, the position in front of it. 
+Therefore, $r_4$ finds the reverse edge with a terminal node matching that destination in its own coordinate frame, that is, the position in front of it. 
 %
 Then it matches the root to this edge with itself and computes the local optimal matching for the rest of its neighbors $r_2, r_1$.
 
@@ -506,8 +506,7 @@ In this case, a successful execution of our algorithm requires additional constr
 Because for a non-repeating lattice with finite number of vertices, 
 we can simply use a lattice graph with the same number of nodes to represent the lattice.
 %
-For example, as shown in Figure~\ref{fig:p-letter}, %in which five robots formed a 
-a complete five-node lattice graph on the left represents the right ``P''-letter-like shape. 
+For example, as shown in Figure~\ref{fig:p-letter}, a complete five-node lattice graph on the left represents the right ``P''-letter-like shape. 
 %
 It requires $n=5$ robots for a complete formation that satisfies the lattice graph with fulfillment ratio $1$.
 If $n<5$, robots can never complete the desired shape. 

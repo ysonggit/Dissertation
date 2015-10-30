@@ -142,11 +142,11 @@ Instead, the robot maintains a set of all possible states from its observations.
 %
 The robot model contains following concepts in detail.
 \begin{enumerate}
-\item \emph{State space} $X = \Real^2$: a discrete state space $X$ is
+\item \emph{State space} $X = \Real^2$: A discrete state space $X$ is
   partitioned into obstacle space $X\sub{obst}$ and obstacle-free space
-  $X\sub{free}$. The state of the robot at stage $k \in \Natural$ is written as
-  $x_k$.
-\item \emph{Action space} $U$: the robot chooses one action $u_k \in U$ which is
+  $X\sub{free}$. 
+  The state of the robot at stage $k \in \Natural$ is written as $x_k$.
+\item \emph{Action space} $U$: The robot chooses one action $u_k \in U$ which is
   addictive to the state at each stage.
 \item \emph{State transition function} $F : X \times U \to \pow(X)$: a
   set-valued transition function is used to describe how does the robot's state $x_k$
@@ -177,7 +177,7 @@ The robot model contains following concepts in detail.
     \label{fig:noiseModel}
   \end{figure}	
 
-\item \emph{Observation space} $Y$: an observation at stage $k$ is the sensor
+\item \emph{Observation space} $Y$: An observation at stage $k$ is the sensor
   information collected by the robot, denoted as $y_k \in Y$.
 \item \emph{Observation function} $h : X \to \pow(Y) $: we use a set-valued
   function to model the robot's observations, the set-valued nature of this function reflects
@@ -188,7 +188,7 @@ The robot model contains following concepts in detail.
     H(y_k) = \left\{ x_k \in X \mid y_k \in h(x_k), y_k \in Y \right\},
   \end{equation}
   in order to retrieve the set of states from which a given observation might be obtained.
-\item \emph{Initial condition} $\eta_0$: initially we assume that we know a set
+\item \emph{Initial condition} $\eta_0$: Initially we assume that we know a set
   $\eta_0$ containing all possible starting states of the robot, namely,
   $\eta_0$ represents a set $X_1\subseteq X$. 
 \end{enumerate}
@@ -199,10 +199,10 @@ The robot model contains following concepts in detail.
 The problem we address here is in a scenario in which the robot is able to complete
 tasks without knowing the exact states. 
 %
-Therefore, the planning algorithm can be considered in terms of the information space respective.  
+Therefore, we can consider the planning algorithm in the information space.  
 %
 The ultimate objective of our approach is to form a plan $\pi$ which the robot can execute using the
-information available in the information space.
+information available.
 %
 Generally, an information space is essentially a special state space which involves the history of action and sensor observation. 
 %
@@ -288,11 +288,11 @@ Recall Equation~\ref{eq:hist-istate2}, we have $\eta_{k+1} =
 Then we apply two set operations to compute the state subset
 $X_{k+1}(\eta_{k+1})$: 
 \begin{enumerate}
-\item apply set union with the output of state transition function (Equation~\ref{eq:state-trans}) on every possible states contained in $X(\eta_k)$, we yield:
+\item Apply set union with the output of state transition function (Equation~\ref{eq:state-trans}) on every possible states contained in $X(\eta_k)$, we yield:
 \begin{equation}
-  X_{k+1}(\eta_{k}, u_k) =  \bigcup_{x_k \in \eta_k} F(x_k, u_k);
+  X_{k+1}(\eta_{k}, u_k) =  \bigcup_{x_k \in \eta_k} F(x_k, u_k).
 \end{equation}
-\item apply set intersection on the observation preimage at stage $k$ with the
+\item Apply set intersection on the observation preimage at stage $k$ with the
 state subset from the first step:
 \begin{equation}
   \eta_{k+1} = X_{k+1}(\eta_{k}, u_k) \cap H(y_{k}).
@@ -332,13 +332,13 @@ remain a member of this range space, so that $A_k \in \Rspace$.
   A range space $\Rspace \subseteq \Ispace$ is a set of I-states, equipped with
   two functions:
   \begin{enumerate}
-  \item an \emph{approximate action update function} $T: \Rspace \times U \to
+  \item An \emph{approximate action update function} $T: \Rspace \times U \to
     \Rspace$, such that if $\eta_k \subseteq A_k$, then
     \begin{equation}
       \label{eq:T}
-      \bigcup_{x_k \in \eta_k} F(x_k, u_k) \subseteq T(A_k, u_k);
+      \bigcup_{x_k \in \eta_k} F(x_k, u_k) \subseteq T(A_k, u_k).
     \end{equation}
-  \item an \emph{approximate observation update function} $O: \Rspace \times
+  \item An \emph{approximate observation update function} $O: \Rspace \times
     Y \to \Rspace$, such that if $\eta_k \subseteq A_k$, then
     \begin{equation}
       \label{eq:O}
@@ -368,7 +368,7 @@ by a center point and a radius.
 %
 Denote the set of all disks in $\Real^2$ using $\Rdisk$. 
 Recall in a 2D plane, an information state can be represented using a compact set, 
-thus, for any compact set $S \subset \Real^2$, let $\sed(S)$ denote the smallest disk enclosing $S$.
+thus, for any compact set $S \subset \Real^2$, denote $\sed(S)$ using the smallest disk enclosing $S$.
 %
 Then we define
 \begin{flalign}
@@ -385,7 +385,7 @@ using operator $\oplus$.
 %
 Computing Minkowski sums of disks consists of the addition of their centers and radius, therefore, it takes constant time to compute $T\disk$.  
 %
-When the observation preimages are quarter-planes or circles, 
+For the observation preimages modeled using quarter-planes or circles, 
 computing the $O\disk$ also takes constant time~\cite{OKa08b, OKaXu12}.
 %  
 Because both $A_k$ and $\sed(\Theta(u_k))$ are disks, the result is still in $\Rdisk$.  
@@ -395,7 +395,7 @@ Similarly, we define
   O\disk(A_k, y_{k}) = \sed(H(y_{k}) \cap A_k).
 \end{equation} 
 It is trivial to show that $\Rdisk$ is a range space under the
-operations of the action update and the observation update by definition.
+operations of the action update and the observation update according to Definition~\ref{def:rspace}.
 
 \subsection{Rectangle Range Space}
 \label{subsec:rect}
@@ -422,7 +422,7 @@ Also we define the approximate observation update function:
 By definition, we can show that $\Rrect$ is a range space under $T\rect$ and $O\rect$.
 
 Figure~\ref{fig:rect-update12} and Figure~\ref{fig:rect-update34} illustrate the steps to
-compute the approximation set $A_{k+1}$ using the approximate transition function $T\rect$ in the rectangle range space, as described in Equation~\ref{eq:trect}.
+compute the approximation set $A_{k+1}$ using the approximate transition function $T\rect$ within the rectangle range space, as described in Equation~\ref{eq:trect}.
 
 \begin{enumerate}
 \item Step 1: Find the minimal axis-aligned bounding box for the bounded noise set
@@ -435,7 +435,7 @@ compute the approximation set $A_{k+1}$ using the approximate transition functio
   using the result of Step 1. 
   This step takes constant time because each of the three operands is either a single point or a rectangle
   represented by its lower left and upper right corners, the results can be
-  computed by adding the coordinates of the respective corners together.
+  computed by adding the coordinates of the corresponding corners together.
 	
 \item Step 3: Intersect the free state space $X\free$ with the result of Step
   3, using the general polygon clipping algorithm~\cite{Vat92}. 
@@ -470,19 +470,19 @@ the observation preimage.
 %
 We let the observation preimage be a disk in $\Real^2$, the intuition is to accelerate the computation by modeling the preimage using a specific known shape, such as disk or other geometric shapes. 
 %
-In our experiments, every $H(y_k)$ is modeled using a planar disk.  
+In our experiments, we modeled $H(y_k)$ using a planar disk.  
 In that case, we can compute $O\rect(A_k, y_k)$ in constant time using following
 steps (Figure~\ref{fig:orect}): 
 \begin{enumerate}
-\item Step 1: compute the set of points at which the boundary of the disk
+\item Step 1: Compute the set of points at which the boundary of the disk
   $H(y_{k})$ intersects the boundary of the rectangle $A_k$. 
   There are at most $8$ such points.
   
-\item Step 2: for each of four axis-aligned extremal points of the disk
+\item Step 2: For each of four axis-aligned extremal points of the disk
   $H(y_{k}),$ that is, its topmost, bottommost, leftmost, and rightmost
   points, check if it is a subset in $A_k$.
 
-\item Step 3: find the minimum axis-aligned rectangle that contains the
+\item Step 3: Find the minimum axis-aligned rectangle that contains the
   8 or fewer points found in Steps~1 and 2.
 \end{enumerate}
 
@@ -501,9 +501,9 @@ approximate the I-state limits to provide good approximations
 when the exact I-state $\eta_k$ is not a convex set. 
 That is, the over-approximation set could be far from close to the true I-state in this case.
 
-To overcome this limitation, our work contributes to a novel range space,
+To overcome this limitation, we contribute a novel range space,
 \emph{double-rectangle}, which is essentially a union of two rectangular
-regions, for both convex and non-convex I-states over-approximation:
+regions, for both convex and non-convex I-states over-approximations:
 \begin{equation}
   \Rdrect = \{ R_1 \cup R_2 \mid R_1, R_2 \in \Rrect \}.
 \end{equation}
@@ -562,25 +562,30 @@ For a double-rectangle I-state approximation $A_k = R_1 \cup R_2$, we have
 \begin{algorithm}
     \SetKwInOut{Input}{input}
     \SetKwInOut{Output}{output}
+    \SetKwData{VP}{vertex pair}
+    \SetKwFunction{AABB}{AABB}
+    \SetKwFunction{AR}{area}
+    \SetKwData{E}{edge}
     \Input{A polygon $P$}
     \Output{A double-rectangle over-approximating $P$}
     $V \leftarrow $ a set containing the vertices of $P$ and its centroid\;
-    $C \leftarrow $ a set containing double-rectangle approximations\;
-    \ForEach {$\mbox{vertex pair } p,q \in V, p \neq q$}{
-        $R_1 \leftarrow \{ p \}$; $R_2 \leftarrow \{ q \}$\;
-	    \ForEach {$\mbox{edge } e \in P$}{
-		    $R_1' \leftarrow$ $\aabb(R_1 \cup e)$\;
-		    $R_2' \leftarrow$ $\aabb(R_2 \cup e)$\;
-		    \eIf{$\area(R_1' \cup R_2) < \area(R_1 \cup R_2')$}{
+    $S \leftarrow $ a set containing double-rectangle approximations\;
+    \ForEach {\VP $p,q \in V, p \neq q$}{
+        $R_1 \leftarrow \{ p \}$\; 
+        $R_2 \leftarrow \{ q \}$\;
+	    \ForEach {\E $e \in P$}{
+		    $R_1' \leftarrow$ $\AABB(R_1 \cup e)$\;
+		    $R_2' \leftarrow$ $\AABB(R_2 \cup e)$\;
+		    \eIf{$\AR(R_1' \cup R_2) < \AR(R_1 \cup R_2')$}{
 		        $R_1 \leftarrow R_1'$\;
 		    }{
 		        $R_2 \leftarrow R_2'$\;
 		    }
 	    }
-	    insert $R_1 \cup R_2$ into $C$\;
+	    insert $R_1 \cup R_2$ into $S$\;
 	}
     \Return
-    $\operatornamewithlimits{argmin}_{(R_1 \cup R_2) \in C}(\area(R_1 \cup R_2))$\;
+    $\operatornamewithlimits{\argmin}_{(R_1 \cup R_2) \in S}(\AR(R_1 \cup R_2))$\;
     \caption{Compute a double-rectangle approximation of a polygon}
     \label{alg:drap}
 \end{algorithm}
@@ -596,7 +601,7 @@ I-state itself:
   Q_k = \frac{1}{k} \sum_{i=1}^k \frac{\area(\eta_i)}{\area(A_i)}.
 \end{equation}
 The higher value of $Q$ demonstrates the better approximation quality, up to
-a maximum value of $1$. 
+the maximum value of $1$. 
 
 
 \subsection{Navigation Task}
@@ -607,7 +612,7 @@ requiring to know its exact state in a landmark-based navigation task.
 In a known environment with or without obstacles, we placed landmarks in the
 locations of $l_1,\ldots,l_m$ which can be detected by the robot. 
 %
-Each landmark has an detection range $\range_i, i \in [1, \ldots, m]$, therefore, the observation
+Each landmark has a detection range $\range_i, i \in [1, \ldots, m]$, therefore, the observation
 preimage is a disk with center point at $l_i$ and radius $\range_i$. 
 %
 Moreover, to navigate the robot, we place a sequence of waypoints $w_1,\ldots,w_n$
@@ -638,7 +643,7 @@ conducted experiments using three distinct environments
 $\Rspace_{rect}$, and $\Rspace_{dblrect}$.  
 %
 We implemented the experiments using C++, and performed all the simulations on a GNU/Linux PC with Intel Core i7 CPU, 2.8GHz and 8GB memory.
-We present experiments that measured these approximation ratios, 
+We presented experiments that measured these approximation ratios, 
 along with the robot's success rate in completing the navigation task using each of these range spaces.
 \begin{figure}
   \centering
@@ -650,7 +655,7 @@ along with the robot's success rate in completing the navigation task using each
     \includegraphics[scale=0.65]{figs/office}    
   \end{minipage}
   \caption{Three environments with landmarks: [top left] Obstacle-free. [bottom
-    left] Obstacle-clutter. [right] Office-like.}
+    left] Cluttered. [right] Office-like.}
   \label{fig:env}
 \end{figure}
 
@@ -683,7 +688,7 @@ especially when using $\Rrect$ and $\Rdrect$.
     \includegraphics[width=0.95\textwidth]{figs/exp_num_clutter}
   \end{center}
   \caption{The statistics of the success rate versus 
-    the number of landmarks in the obstacle-cluttered environment.}
+    the number of landmarks in the cluttered environment.}
   \label{fig:sucRate2}
 \end{figure}
 \begin{figure}
@@ -747,7 +752,7 @@ of CGA's performance as a function of environment rotation.
     \includegraphics[width=0.95\textwidth]{figs/exp_rot_clutter}
   \end{center}
   \caption{The statistics of the success rate versus 
-    the number of landmarks in the rotated obstacle-clutter environment.}
+    the number of landmarks in the rotated cluttered environment.}
   \label{fig:sucRate5}
 \end{figure}
 
@@ -772,7 +777,7 @@ Moreover, the results demonstrate that using the double-rectangle range space co
       ratio for range spaces and I-space in three testing environments.}
     \begin{tabular}{ccccccc} 
     \toprule 
-    \textbf{Range}  & \multicolumn{2}{c}{\textbf{Obstacle-free}} & \multicolumn{2}{c}{\textbf{Clutter}} & \multicolumn{2}{c}{\textbf{Office-like}}\\
+    \textbf{Range}  & \multicolumn{2}{c}{\textbf{Obstacle-free}} & \multicolumn{2}{c}{\textbf{Cluttered}} & \multicolumn{2}{c}{\textbf{Office-like}}\\
     \textbf{Space} & \textbf{Time(s)} & \textbf{App.Ratio} & \textbf{Time(s)} & \textbf{App.Ratio} & \textbf{Time(s)} & \textbf{App.Ratio} \\
     \midrule
     $\Rspace_{disk}$ & 0.163 & 0.155 & 0.162 & 0.155  & 0.292 & 0.220\\ 

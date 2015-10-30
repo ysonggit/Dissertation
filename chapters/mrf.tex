@@ -129,7 +129,7 @@ pattern remains unchanged~\cite{LiuShe12}.
 %
 They addressed this morphing problem in terms of the task assignment problem incorporated with the graph matching problem~\cite{Lov86}. 
 %
-The authors represented the robots routing trajectories using a Euclidean graph.  
+The authors represented the robots' routing trajectories using a Euclidean graph.  
 %
 These trajectories are projected from the augmenting paths in the bipartite graph 
 so that an optimal formation morphing can be achieved~\cite{LiuShe12}.
@@ -200,7 +200,7 @@ We describe the robot model as following.
   orientation, expressed in an arbitrary but fixed global coordinate frame for
   modeling purposes. Write the pose of $r_i$ at time $t$ as $p_i(t)$.  Also
   define a body frame attached to each robot, in which the robot is always at
-  the origin, facing along the positive $x$-axis.  Let $\Tr(r_i)$ denote the $3
+  the origin, facing along the positive $x$-axis. Use $\Tr(r_i)$ to denote the $3
   \times 3$ homogeneous matrix representing the rigid body transformation from
   the body frame of $r_i$ to the global frame:
   \begin{equation}
@@ -260,26 +260,20 @@ One core contribution is that we have introduced a graph definition to represent
 \begin{defn}
   \label{def:latticegraph}
   A \textbf{lattice graph} is a strongly connected directed multigraph in which
-  each edge $e$ is labeled with a rigid body transformation $\Tr(e)$ and each
+  each edge $e$ is labeled with a rigid body transformation $\Tr(e)$ and each edge
   $\edge{u}{\Tr(e)}{w}$ has an inverse edge $\edge{w}{\Tr(e)^{-1}}{u}$.
 \end{defn}
 
-The intuition is, we want each robot to be associated with one lattice graph vertex, 
-and the outgoing edges of that vertex will correspond to the relative poses of that robot's neighbors when the lattice is correctly formed.
-%
-Figure~\ref{fig:edgetrans} shows a simple example in which the positions of two
-robots satisfy the given lattice graph. 
-A robot with the role $w$ is
-at pose $(l\cos{\alpha}, l\sin{\alpha}, \beta-\alpha)$ relative a robot with the role of
-$u$. Here the role functions are: $f(r_i) = u, f(r_j) = w$.
+
+The graph reflects local neighborhood relationships. 
+When the lattice is fully formed, each robot will be
+associated with one lattice graph vertex, and that the outgoing edges of that
+vertex will correspond to the number and relative poses of that robot's
+neighbors.
 
 
 The lattice graph in Figure~\ref{fig:sq} represents a repeating square lattice pattern, 
 in which one node has four outgoing edges connecting to itself. 
-%
-The graph also reflects local neighborhood relationships:
-%
-Every pair of poses satisfying the rigid-body transformation of an outgoing edge is a component of the repeating square pattern.
 %
 Figure~\ref{fig:hex} shows an example of the lattice graph used to represent a
 repeating hexagon lattice, in which there are two nodes, each one has three outgoing edges connecting to the other one. 
@@ -288,17 +282,8 @@ To show that our algorithm is sufficient for complicated patterns,
 we have designed a lattice graph representing a repeating octagon-square lattice pattern shown in Figure~\ref{fig:octagonsquare}.
 %
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}
-  \centering
-  \input{tikzfig/edgetrans.tex}
-  \label{fig:edgetrans}
-\end{figure}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%TODO Penrose tiling 
-
 \begin{defn}
-\label{def:selfconsist}
+\label{def:satisfy}
   Given a lattice graph $G=(V, E)$ and a set of robots
     $R = \{ r_1, \ldots, r_n \}$,
   we say that $R$ \textbf{satisfies} $G$ if there exists a function
@@ -311,6 +296,29 @@ we have designed a lattice graph representing a repeating octagon-square lattice
       $f(r_i) = u$,
       $f(r_j) = w$, and $\Tr(r_j) = \Tr(r_i) \Tr(e_{u}^w)$.
 \end{defn}
+
+The intuition is, we want each robot to be mapped to one lattice graph vertex, termed the robot's \textbf{role}.
+%
+With the transformations of the outgoing edges from a role vertex, 
+the robot can compute the relative poses corresponding to the outgoing edges' terminal vertices.
+%
+Every pair of its pose and neighbor's pose satisfying the rigid body transformation of an outgoing edge is a component of the desired lattice pattern.
+
+Figure~\ref{fig:edgetrans} shows a simple example in which the positions of two
+robots satisfy the given lattice graph. 
+%
+A robot with the role $w$ is
+at pose $(l\cos{\alpha}, l\sin{\alpha}, \beta-\alpha)$ relative a robot with the role of
+$u$. 
+The role functions are: $f(r_i) = u, f(r_j) = w$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}
+  \centering
+  \input{tikzfig/edgetrans.tex}
+  \label{fig:edgetrans}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}
@@ -383,7 +391,7 @@ we have designed a lattice graph representing a repeating octagon-square lattice
 
 The lattice graph is suitable for representing repeated patterns, but not the non-periodic patterns, 
 such as the Penrose tiles~\cite{Pen79, Gum96}. 
-(Figure~\ref{fig:penrose} shows two Penrose tiles, which are pairs of tiles placed aperiodically, called ``kite'' and ``dart''.)
+(Figure~\ref{fig:penrose} shows two Penrose tiles, which are pairs of tiles appear aperiodically, called ``kite'' and ``dart''.)
 
 
 \subsection{Lattice Graph Constraint}
@@ -394,7 +402,6 @@ Figure~\ref{fig:self-consistent-graph} shows a comparison between a simple
 lattice graph that is not self-consistent with one that is self-consistent.
 
 
-
 \begin{defn}
   \label{def:selfconsistent}
   Given a range $\range > 0$, call a lattice graph \textit{self-consistent} for
@@ -402,7 +409,7 @@ lattice graph that is not self-consistent with one that is self-consistent.
   $$ \lgpath{u}{\Tr(e_u^{k})}{\Tr(e_m^{w})}{w}, \mbox{ and } 
     \lgpath{u}{\Tr(e_u^{j})}{\Tr(e_n^{z})}{z}, $$
   for which the distance between two ending nodes is less than or equal to
-  $\range$, there exist edges between $w$ and $z$ labeled with the correct rigid-body transformation.
+  $\range$, there exist edges between $w$ and $z$ labeled with the correct rigid body transformation.
 \end{defn}
 
 
@@ -441,14 +448,14 @@ The self-consistent property is an important constraint for our algorithm to gen
 For the range $\range$, we assume $1 < \range < \sqrt{2}$.
 The left graph in Figure~\ref{fig:lg1} contains a node with two outgoing edges. 
 Its right outgoing edge associates a translation $(1,0)$ and a rotation of $45^{\circ}$ in order to get the adjacent pose.
-(The left edge is labeled rotation of $-45^{\circ}$ then translation of $(1,0)$ to get the other adjacent pose.) 
+(The left edge is labeled rotation of $-45^{\circ}$ and translation of $(-1,0)$ to get the other adjacent pose.) 
 This lattice graph represents a single octagon pattern shown in Figure~\ref{fig:lg2} (left).
 
 The right graph in Figure~\ref{fig:lg1} is similar to the left graph but is not self-consistent.
 Its right outgoing edge associates a translation of $(1,0)$ but follows a rotation of $45\sqrt{2}^{\circ}$ to get the adjacent pose. 
 However, this graph produces a pattern contradicting to itself.
 In Figure~\ref{fig:lg2} right, starting from the blue robot, the red robot and the blue robot satisfy the right outgoing edge of the right graph in Figure~\ref{fig:lg1}, such as the yellow one and the red one, the green one and the yellow one, and so on.
-Although the cyan robot and the purple robot satisfy the right outgoing edge of the graph, the positions of the cyan one and the blue one contradict to the graph in terms of Definition~\ref{def:selfconsist}.
+Although the cyan robot and the purple robot satisfy the right outgoing edge of the graph, the positions of the cyan one and the blue one contradict the graph in terms of Definition~\ref{def:selfconsistent}.
 
 % It is not practical to verify a self-consistent lattice graph in terms of the
 % Definition~\ref{def:selfconsistent}, that is, simply using a brute force method
@@ -466,7 +473,7 @@ Although the cyan robot and the purple robot satisfy the right outgoing edge of 
 \section{Evaluation Criteria}
 \label{sec:mrf-eval}
 
-To verify the effectiveness of our algorithms, we have designed two evaluation criteria so that we could run simulations and collect the measurements.
+To verify the effectiveness of our algorithms, we have defined two evaluation criteria so that we could run simulations to collect the measurements.
 
 \subsubsection{Execution Time}
 The first measurement we concern is the time needed for the robots to reach static positions.
