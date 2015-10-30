@@ -29,7 +29,7 @@ The concepts of robot model, the lattice graph, and the evaluation criteria are 
 Distributed solutions are powerful and efficient for many applications of multi-robot systems,
 such as deploying multiple robots or large-scale sensor networks to execute searching or sensing tasks. 
 %
-Previously, a lot of work has been done on the multi-robot lattice formation
+Previously, extensive work has been done on the multi-robot lattice formation
 problem using distributed methods. 
 %
 Fujibayashi, Murata, Sugawara and Yamamura proposed a probabilistic control algorithm to generate the triangular lattice pattern~\cite{FujMurSugYam02}. 
@@ -56,7 +56,7 @@ the virtual force, without suffering from local minima~\cite{MarPay2005}.
 Navarro, Pugh, Martinoli, and Mat{\'\i}a implemented a PF-based algorithm as a finite state machine, 
 so that robots without holonomic assumption can form the triangular lattice~\cite{NavPugMarMat09}.  
 %
-Based on the PF-based approach that is used for the triangular formation, 
+Based on the PF-based approach that was used for the triangular formation, 
 Mullen, Monekosso, Barman, and Remagnino designed a cooperative formation control strategy to form hexagonal lattices. 
 %
 Their robots coordinate with each other to determine the centroids of hexagonal cells and place
@@ -81,7 +81,7 @@ Ikemoto, Hasegawa, Fukuda, and Matsuda described a gradual pattern formation app
 They proposed a Turing morphogenetic function~\cite{Turing37} to generate patterns based on local information~\cite{IkeHasFukMat05}. 
 %
 Under this approach, the final pattern is always generated from a circle pattern formed by robots in the
-previous step. Thus, it is difficult to use this approach to form any repeated
+previous step. Thus, it is difficult to use this approach to form arbitrary repeated
 pattern.
 
 
@@ -384,14 +384,14 @@ The role functions are: $f(r_i) = u, f(r_j) = w$.
         \centering
         \includegraphics[width=0.9\textwidth]{figs/Penrose_Tiling2.png}
     \end{minipage}
-    \caption{Two penrose tiling patterns.}
+    \caption{Two Penrose tilings.}
     \label{fig:penrose}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 The lattice graph is suitable for representing repeated patterns, but not the non-periodic patterns, 
-such as the Penrose tiles~\cite{Pen79, Gum96}. 
-(Figure~\ref{fig:penrose} shows two Penrose tiles, which are pairs of tiles appear aperiodically, called ``kite'' and ``dart''.)
+such as the Penrose tilings~\cite{Pen79, Gum96}. 
+(Figure~\ref{fig:penrose} shows two Penrose tilings, which are pairs of tiles appear aperiodically, called ``kite'' and ``dart''.)
 
 
 \subsection{Lattice Graph Constraint}
@@ -431,11 +431,11 @@ lattice graph that is not self-consistent with one that is self-consistent.
 \centering
     \begin{minipage}[b]{0.45\linewidth}
         \centering
-        \includegraphics[width=0.7\textwidth]{figs/badlg-lat}
+        \includegraphics[width=0.7\textwidth]{figs/octagon}
     \end{minipage}
     \begin{minipage}[b]{0.45\linewidth}
         \centering
-        \includegraphics[width=0.65\textwidth]{figs/swirl}
+        \includegraphics[width=0.65\textwidth]{figs/badlg-lat}
     \end{minipage}
     \caption{[left] An octagon lattice represented by the self-consistent lattice graph in Figure~\ref{fig:lg1}.
     [right] The non-self-consistent lattice graph in Figure~\ref{fig:lg1} will produce the pattern contradicting itself.}

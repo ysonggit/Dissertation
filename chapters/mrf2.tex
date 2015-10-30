@@ -459,14 +459,14 @@ the message type.
   \If{\mbox{\textbf{ not }} \SM.\Empty}{
     \Return \MWMS \mbox{\textbf{ in }}  \SM\;
   }
-  \MinSteps $\leftarrow$ \MyMsg.\PFRt.length\;;
+  \MinSteps $\leftarrow$ \MyMsg.\PFRt.length\;
   \UncleMsgs $\leftarrow \{\}$\;
   \ForEach{\Msg \mbox{\textbf{ in }} \EM}{
     \MinSteps $\leftarrow \min$(\Msg.\PFRt.length, \MinSteps)\;
   }
   \ForEach{\Msg \mbox{\textbf{ in }} \EM}{
     \If{\Msg.\PFRt.length $=$ \MinSteps}{
-        \UncleMsgs $\leftarrow$ \Msg\;
+        insert \Msg to \UncleMsgs\;
     }
   }
   sort \UncleMsgs in descending order of senderIDs\;
@@ -597,7 +597,7 @@ discovering that no unstable robots remain.
 In this section, we prove that our algorithm enables the robots to form the desired lattice pattern and overcomes the limitations of the primary algorithm.
 
 \begin{lem}
-\label{lem:connected}
+    \label{lem:connected}
     Given a set of robots $R =\{r_1, \ldots, r_n\}$, if the
     communication graph is connected at time $t$, then using the motion
     strategy, the communication graph stays connected at time $t+\dt$.
@@ -658,7 +658,7 @@ input lattice graph.
     \begin{equation*}
      \label{eq:timebound}
       \begin{split}
-        \T_i & = \T_{\textrm timeout} + \T_{\textrm drive} + \T_{\textrm wait}  \\
+        \T_i & = \T_{\textrm{timeout}} + \T_{\textrm{drive}} + \T_{\textrm{wait}}  \\
         & \leq O(n)+ i\range/v + \range(n-i-1)/v \\
         & \leq O(n) + (n-1)\range/v\\
         & = O(n).
@@ -667,32 +667,31 @@ input lattice graph.
     
     This bound derives from three observations.
     %
-    First, recall that the time complexity of the communication time $\T_{\textrm timeout}$ is $O(n)$ (Section~\ref{sec:com}).  
+    First, recall that the time complexity of the communication time $\T_{\textrm{timeout}}$ is $O(n)$ (Section~\ref{sec:com}).  
     %
-    Second, note that
-    the distance traveled by $r_i$ from its current position to the vacancy is
+    Second, the distance traveled by $r_i$ from its current position to the vacancy is
     approximately equal to the geometric length of its path from the root.
     %
-    Because each robot appears at most once on that path, we have $\T_{\textrm drive}\leq i\range/v$. 
+    Because each robot appears at most once on that path, we have $\T_{\textrm{drive}}\leq i\range/v$. 
     %
     Finally, the maximum waiting time achieves its
     worst case when all $n-i-1$ other unstable robots are descendants and they
-    form a linear chain with successive robots distance $\range$ apart.  
+    form a linear chain with successive robots distance $\range$ apart (Figure~\ref{fig:safedist}).  
     %
     In this case, the descendant robots need to move close to their parents,
     starting from leaf node, one-by-one. 
     %
     Hence, the waiting time is bounded by
-    $\T_{\textrm wait}\leq(n-i-1)\range/v$.
+    $\T_{\textrm{wait}}\leq(n-i-1)\range/v$.
     
     Therefore, the total algorithm execution time for the robots to reach positions satisfying the input lattice graph
-    is  $O(n^2)$ steps.
+    is $O(n^2)$.
 \end{proof}
 
 %\clearpage
 \section{Experiments and Evaluations}
 \label{sec:exp}
-We have implemented our algorithms with ROS~\cite{CouGerConGar10} and conducted a series of simulations to test the performance of both the old and the new algorithms. 
+We have implemented our algorithms with ROS~\cite{QuiConGerFauFooLeiWheNg09,CouGerConGar10} and conducted a series of simulations to test the performance of both the old and the new algorithms. 
 %
 The major objectives are:
 \begin{itemize}

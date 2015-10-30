@@ -185,7 +185,7 @@ Given $\min(N_i, E_i)$ agents and $E_i$ tasks, we create a $\min(N_i, E_i)\times
 The goal is finding the cost minimizing assignment. 
 %
 (The number of agents is not greater than the number of
-the out-degree since a parent robot always selects maximum $E_i$ neighbors as to form matching with it).
+the out-degree since a parent robot always selects at most $E_i$ neighbors as to form matching with it).
 
 Specifically, in the cost matrix, each row corresponds to an ID of a non-orphan neighbor of $r_i$, and each column corresponds to an outgoing edge from its role $f(r_i)$. 
 %
@@ -356,7 +356,7 @@ An orphan robot is a special descendant who does not have an actual task assigne
 %
 In detail, if the orphan robot receives a message from its parent, in which it is matched to $\emptyset$, it concludes that its current location is too congested.
 %
-In response, it moves directly away from its parent for a fixed period of time, equal to $2\range/v$.
+In response, it moves directly away from its parent for a fixed period, equal to $2\range/v$.
 %
 The intuition is, we want the orphan robot to travel for a distance that is twice of its parent's range.
 %
@@ -513,7 +513,7 @@ If $n<5$, robots can never complete the desired shape.
 Otherwise, if there are more than $n>5$ robots, the $n-5$ robots must be either orphan robots or form another cluster of formations. 
 Both cases do not satisfy the given lattice graph. 
 % 
-Without the second constraint, then the robots cannot distributed the tasks correctly to form the complete lattice.
+Without the second constraint, the robots cannot distributed tasks correctly to complete the formation.
 \begin{figure}
     \centering
   \begin{minipage}[b]{0.45\linewidth}

@@ -3,11 +3,12 @@ for robots to describe and reason about
 uncertainty, termed the ``constrained geometric approximation approach''.
 
 Previous work delivered computationally expensive methods to represent a robot's
-knowledge of its states and uncertainty explicitly using an information state in
+knowledge of its states and uncertainty explicitly, using an information state in
 the information space. 
 %
 In contrast, our approach is computationally inexpensive.
-Specifically, this approximation method is suitable for the robots 
+Specifically, this approximation method uses simple geometric data structures 
+which are suitable for the robots 
 with extreme limitations in both sensing and computation. 
 %
 We provided simulations of sensor-based navigation
@@ -21,16 +22,16 @@ lattice pattern formation problem.
 %
 Both of the formation algorithms feature in representing the lattice as
 a directed graph, in which edges show the desired rigid body transformations
-between the pairs of neighbor robots. 
+between the robot and the its neighbors. 
 %
 Another common feature of the two algorithms is that robots organize themselves using tree structures. 
 
-The primary formation algorithm enables each robot to perform distributed task assignment using
+The first formation algorithm enables each robot to perform distributed task assignment using
 only local information.
 %
 The experimental results demonstrate that the algorithm executes efficiently and 
 scales reasonably well as the number of robots increases.
-Moreover, the algorithm is robust against the robots' failures.
+Moreover, the algorithm is stateless and is robust to system failures.
 
 
 With regard to the limitations of the task-assignment-based algorithm, 
