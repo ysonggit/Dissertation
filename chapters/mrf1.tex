@@ -404,7 +404,7 @@ Figures~\ref{fig:octagonsquare-init-final}, \ref{fig:hex-init-final} and \ref{fi
     \midrule
     Square & 200 & 910 & 0.725  \\ 
     \midrule
-    Hexagon & 150 & 892 & 0.819 \\
+    Hexagon & 150 & 892 & 0.719 \\
     \midrule
     Octagon-Square & 100 & 1138 & 0.694 \\
     \bottomrule     
@@ -508,12 +508,13 @@ we can simply use a lattice graph with the same number of nodes to represent the
 %
 For example, as shown in Figure~\ref{fig:p-letter}, a complete five-node lattice graph on the left represents the right ``P''-letter-like shape. 
 %
-It requires $n=5$ robots for a complete formation that satisfies the lattice graph with fulfillment ratio $1$.
-If $n<5$, robots can never complete the desired shape. 
-Otherwise, if there are more than $n>5$ robots, the $n-5$ robots must be either orphan robots or form another cluster of formations. 
-Both cases do not satisfy the given lattice graph. 
+It requires the number of robots $n=5$ to form the finite pattern with fulfillment ratio $1$.
+If $n<5$, robots cannot fully form the desired shape. 
+Otherwise, if there are more than $5$ robots, the robots will form multiple copies of the finite patterns. 
+%Both cases do not satisfy the given lattice graph. 
 % 
 Without the second constraint, the robots cannot distributed tasks correctly to complete the formation.
+
 \begin{figure}
     \centering
   \begin{minipage}[b]{0.45\linewidth}
@@ -530,7 +531,7 @@ Without the second constraint, the robots cannot distributed tasks correctly to 
  
 
 %\clearpage
-\section{Conclusions} 
+\section{Discussions} 
 \label{sec:conc-mrf1}
 Above all, we conclude the strengths and weaknesses of our algorithm in this chapter.
 

@@ -3,44 +3,43 @@
 
 Modern robot technologies serve a wide range of applications. 
 %
-As a result, the human society is now experiencing benefits brought by the robot technology more than ever before.
+As a result, society is beginning to experience significant benefits from robotics.
 %
-For example, in factories, millions of industrial robots operating the production line enormously boosted the productivity; 
-in hospitals, surgery robots help doctors to achieve high accuracy in the surgical procedures; 
-meanwhile, in military and agricultural applications, unmanned systems, such as drones, are widely deployed for the aerial surveillance.
+For example, in factories, millions of industrial robots operating on production lines enormously boost productivity; 
+in hospitals, surgery robots help doctors to achieve high accuracy in surgical procedures; 
+and in military and agricultural applications, unmanned systems, such as drones, are widely deployed for aerial surveillance.
 
 
 %
-One power that pushes the robotics research forward is the progress of the sensing and computing technologies. 
+One power that pushes the robotics research forward is the progress of sensing and computing technologies. 
 %
 Sensing ability is critical for robots to know about their environments. 
 According to Siegwart, Nourbakhsh, and Scaramuzza, sensors can be classified as proprioceptive/exteroceptive sensors or passive/active sensors using two important function axes~\cite{SieNouSca11}.
 %
-Proprioceptive sensors such as odometers,
-compass, measure internal values to the robot, for example, motor speed, orientation, joint angles, etc.
+Proprioceptive sensors, such as odometers and
+compasses, measure values internal to a robot, for example its motor speed, orientation, joint angles, etc.
 %
-Exteroceptive sensors such as cameras, laser range-finders, acquire the information from the robot's environment, for example, the distance between a robot to an obstacle, or the light intensity. 
+Exteroceptive sensors, such as cameras and laser range-finders, acquire information from a robot's environment, for example, the distance between a robot to an obstacle, or the ambient light intensity. 
 
 %
-We have observed a great success has been achieved in the areas of robot perception, motion/path planning, localization and mapping, etc. 
+We have observed that great success has been achieved in the areas of robot perception, motion/path planning, localization and mapping, etc. 
 %
 However, in practice, even the most advanced sensing technique cannot guarantee to produce a perception of the
 environment without any uncertainty.  
 %
-Thus, to solve those difficult robotics problems such as planning or SLAM, etc., we must process the uncertainty from sensing and motion properly.
+Thus, to solve difficult robotics problems such as planning or SLAM, we must process the uncertainty from sensing and motion properly.
 %
-A primary question is about how does a robot represent and reason about its perceived information with uncertainty.
+A primary question is about how a robot represents and reasons about its perceived information with uncertainty.
 %
-Therefore, the first goal of this dissertation is studying a planning algorithms with constraints on the robot's sensing and computing ability.
+Therefore, the first goal of this dissertation is studying planning algorithms with constraints on the robot's sensing and computing ability.
 
 \subsection{Geometric Planning Algorithm}
-In the first problem, we consider a robot, equipped with exteroceptive sensors,
-and limited sensing and computing
-ability in a known planar environment, in which the landmarks are
-placed. 
+In the first problem, we consider a robot --- equipped with a processor that has limited computing power and exteroceptive sensors that have limited sensing
+ability --- in a known planar environment.
+In order to assist the robot to navigate, we also place several landmarks in the environment.
 We mainly focus on how to model the robot's perception using simple
 geometric structures.
-The objective is how to make effective plans for the robot to complete certain navigation tasks 
+The objective is to make an effective plan for the robot to complete certain navigation tasks 
 in spite of a noisy perception.
 
 We have borrowed an idea of using the set-based representations of uncertainty to describe the robot's knowledge of
@@ -70,7 +69,7 @@ the approximation quality, and the task completion rate.
   \centering
   \includegraphics[width=.9\columnwidth]{figs/dbrect_clutter.png}
   \caption{A robot (red arrow) navigates itself in an environment with obstacles (black) and landmarks.
-    The blue circles are the ranges in which the robot receive observations from the landmarks.
+    The blue circles are the ranges in which the robot receives observations from the landmarks.
     The green region denotes the robot's true information state. 
     A union of two red boxes represents an over-approximation
     of the information state using double-rectangle.}
@@ -81,13 +80,13 @@ the approximation quality, and the task completion rate.
 
 As modern robotic research and technology arise, advances and new challenges
 involve not only single robots but also large systems of robots. 
-Needless to say, well-collaborated work often enhances the effectiveness, flexibility and
+Needless to say, efforts that exploit collaboration often enhance the effectiveness, flexibility, and
 fault-tolerance of a single entity. 
-A vivid example is shown in the movie ``Big Hero 6'', in which many small robots can configure and re-shape themselves to different formations to accomplish different tasks.
-Hereby, research about multi-robot systems, on ground, or in aerial, or under water, attracts a growing number of attentions in recent years\cite{CaoFukKahMen95, DudJenMilWil96, BahSoySah03}. 
-Groups of autonomous robots could be used for tasks ranging from exploring and mapping in an unknown environment to deploying large-scale mobile sensor network. 
-However, in contrast to a single robot, the multi-robot systems normally raise more complicated problems, such as multi-sensor data fusion in the sensing procedure, or multi-robot collision
-avoidance in the motion procedure and multi-robot coordination in the decision-making procedure.
+A vivid example is shown in the movie ``Big Hero 6,'' in which many small robots can configure and reshape themselves to different formations to accomplish different tasks.
+Hence, research about multi-robot systems, on the ground, in the air, or under water, is attracting growing attention in recent years~\cite{CaoFukKahMen95, DudJenMilWil96, BahSoySah03}. 
+Groups of autonomous robots could be used for tasks ranging from exploring and mapping in an unknown environment to deploying a large-scale mobile sensor network. 
+However, in contrast to a single robot, multi-robot systems normally introduce more complicated problems, such as multi-sensor data fusion in the sensing procedure, multi-robot collision
+avoidance in the motion procedure, and multi-robot coordination in the decision-making procedure.
 
 We first describe a novel distributed algorithm that enables a group of mobile
 robots to establish an arbitrary formation, including the repeated lattice

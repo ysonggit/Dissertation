@@ -1,21 +1,21 @@
 \chapter{Conclusions}
 \label{chp:conc}
 
-In this dissertation, we have addressed two problems. 
-The first one is discussing about the capability of a robot to complete a task, without knowing its true I-states but using an approximation of the exact states.
+In this dissertation, we have investigated two problems. 
+The first one addresses the capability of a robot to complete a task without knowing its true I-states, but using an approximation of the exact states.
 %
-The second problem we focus on is how to solve a lattice pattern formation problem for the multi-robot systems in a distributed manner. 
+The second problem addresses how to solve a lattice pattern formation problem for multi-robot systems in a distributed manner. 
 %
-For the first problem, we have presented a geometric planning approach, and for the second problem, we have contributed two decentralized multi-robot formation algorithms.
+For the first problem, we have presented a geometric planning approach and, for the second problem, we have contributed two decentralized multi-robot formation algorithms.
 
 
 The first algorithm in Chapter~\ref{chp:cga} contributes to a simple data structure, called double-rectangle range space, to represent a robot's knowledge, subject to the bounded sensing and motion uncertainty. 
 %
-We claim that this geometric approach can do a better I-state over-approximation job by comparing it with existing approaches. 
+We experimentally show that this geometric approach can do a better I-state over-approximation job by comparing it with existing approaches. 
 %
 Hence, this approach provides a robot that has limited sensing and motion ability a high success rate to complete landmark-based navigation tasks.
 %
-Additionally, we argue that the extensibility of this approach, that is, the range space of ``$k$-fold unions of rectangles'' is useful for more accurate I-state over-approximation with a certain level sacrifice of computation efficiency.
+Additionally, we argue that the extensibility of this approach, that is, the range space of ``$k$-fold unions of rectangles,'' is useful for more accurate I-state over-approximation with a certain level sacrifice of computation efficiency.
 %
 Some future work remains, 
 for example, it is worthwhile to consider the geometric approach to
@@ -23,7 +23,7 @@ generate \emph{under}-approximation of the I-states.
 %
 The discrepancy between the over- and under-approximations could then be used by the robot to estimate the quality of its representation.
 
-We have presented two novel decentralized methods to solve the multi-robot lattice formation problem in Chapter~\ref{chp:mrf1} and Chapter~\ref{chp:mrf2}, respectively. 
+We have presented two novel decentralized methods to solve the multi-robot lattice formation problem in Chapter~\ref{chp:mrf1} and Chapter~\ref{chp:mrf2}. 
 %
 The major challenge is the constraint of using only robots' local information to form miscellaneous lattice patterns.  
 
@@ -32,11 +32,11 @@ We consider algorithms generally useful for constituting different lattice patte
 Both of our formation algorithms use the graph representation as input.
 
 
-To overcome the local information constraint, the first formation algorithm uses a distributed task assignment strategy to form local pattern. 
+To overcome the local information constraint, the first formation algorithm uses a distributed task assignment strategy to form the local pattern. 
 %
 It also uses a collection of authority trees to organize robots into a global structure.
 %
-In contrast, the second formation algorithm uses scheduling-like strategy to complete the desired pattern by sequentially relocating one robot to an open vacancy that constitutes a part of the lattice. 
+In contrast, the second formation algorithm uses a scheduling-like strategy to complete the desired pattern by sequentially relocating one robot to an open vacancy that constitutes a part of the lattice. 
 %
 The key features of the second formation algorithm also include the spanning tree construction and the ``No Child Left Behind'' motion strategy that maintains the connectivity of the communication graph during the algorithm execution.
 
@@ -44,10 +44,10 @@ It is difficult for us to provide an estimation of time consumption for the task
 %
 However, we have proved that the second formation algorithm provides an upper-bound of the execution time for robots to form desired lattice patterns.  
 %
-That is, the algorithm execution time is generally bounded by a value quadratic in the number of robots only, regardless of the lattice pattern to constitute.
+That is, the algorithm execution time is generally bounded by a value quadratic in the number of robots only, regardless of the lattice pattern being constituted.
 
 
-We realize currently the second formation algorithm is not efficient and robust enough,  but it has a great potential to expand itself. 
+We realize currently the second formation algorithm has a great potential to expand itself, such as the algorithm's efficiency and robustness. 
 %
 In current version there is only one robot relocating to one vacancy at a time. 
 %
@@ -57,4 +57,4 @@ Particularly, we expect to construct $k, 1\leq k < n$ spanning trees from the co
 and $k$ highest ID unstable robots in the system.
 Thus, the major challenge becomes: how to design a proper motion strategy to enable multiple robots make progress to their goals, while maintaining the connectivity of the communication graph?
 %
-Furthermore, to enhance the algorithm's robustness to the system failures, we are also interested in designing an error-tolerance mechanism such that the robot can recover from an error status.
+Furthermore, to enhance the algorithm's robustness to system failures, we are also interested in designing an error-tolerance mechanism such that the robot can recover from an error situation.
