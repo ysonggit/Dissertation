@@ -285,16 +285,17 @@ we have designed a lattice graph representing a repeating octagon-square lattice
 \begin{defn}
 \label{def:satisfy}
   Given a lattice graph $G=(V, E)$ and a set of robots
-    $R = \{ r_1, \ldots, r_n \}$,
-  we say that $R$ \textbf{satisfies} $G$ if there exists a function
-    $f: R \rightarrow V$
+  $R = \{ r_1, \ldots, r_n \}$,
+  we say that $R$ \textbf{satisfies} $G$ if there exists a \textbf{role function}
+  $f: R \rightarrow V$
   that preserves the neighborhood structure of $G$.
   %
   Specifically, for any $i$ and $j$, if $r_i$ and $r_j$ are neighbors, 
   there must exist an edge
   $e_u^w: \edge{f(r_i)}{}{f(r_j)}$ in $E$, such that 
-      $f(r_i) = u$,
-      $f(r_j) = w$, and $\Tr(r_j) = \Tr(r_i) \Tr(e_{u}^w)$.
+  $f(r_i) = u$,
+  $f(r_j) = w$, and $p_j = \Tr(e_{u}^w) p_i^\intercal$.
+  Call $u, w$ the \textbf{role vertices} of $r_i, r_j$.
 \end{defn}
 
 The intuition is, we want each robot to be mapped to one lattice graph vertex, termed the robot's \textbf{role}.
@@ -403,14 +404,25 @@ lattice graph that is not self-consistent with one that is self-consistent.
 
 
 \begin{defn}
-  \label{def:selfconsistent}
-  Given a range $\range > 0$, call a lattice graph \textit{self-consistent} for
-  this range if, for any two paths with the same starting node,
-  $$ \lgpath{u}{\Tr(e_u^{k})}{\Tr(e_m^{w})}{w}, \mbox{ and } 
-    \lgpath{u}{\Tr(e_u^{j})}{\Tr(e_n^{z})}{z}, $$
-  for which the distance between two ending nodes is less than or equal to
-  $\range$, there exist edges between $w$ and $z$ labeled with the correct rigid body transformation.
+  Given a path $\lgpath{u}{\Tr(e_u^{k})}{\Tr(e_m^{w})}{w}$ in a lattice graph,
+  the \textbf{endpoint transformation} of that path is defined as the
+  composition of the transformations, $ \Tr(e_u^k) \cdots \Tr(e_m^w)$.  The
+  \textbf{endpoint position} of a path is defined as the translation part of
+  its endpoint transformation.
 \end{defn}
+
+\begin{defn}
+  \label{def:selfconsistent}
+  Given a lattice graph $G$ and range $\range > 0$, $G$ is
+  \textbf{self-consistent} for $\range$ if, for any pair of paths
+    $ \lgpath{u}{\Tr(e_u^{k})}{\Tr(e_m^{w})}{w}$, and $\lgpath{u}{\Tr(e_u^{j})}{\Tr(e_n^{z})}{z}, $
+  from the same starting vertex $u$, with endpoint transformations $\Tr_w$ and
+  $\Tr_z$ and endpoint positions $p_w$ and $p_z$ respectively, such that
+  $||p_w-p_z|| < \range$, the lattice graph contains an edge from $w$ to $z$
+  with transformation $\Tr(e_w^z) = \Tr_w^{-1}\Tr_z$ and an edge from $z$ to
+  $w$ with transformation $\Tr(e_z^w) = \Tr_z^{-1}\Tr_w$.
+\end{defn}
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

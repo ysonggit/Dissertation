@@ -384,8 +384,8 @@ the message type.
     \MyMsg.\HighestID $\leftarrow$ \MyID\;
     \MyMsg.\Stable $\leftarrow$ \Stable\;
     \MyVacancy $\leftarrow$ \Stable $?$ \FuncCV(\InMsgs, \Obsv) $:$ \Null\;
-    \MyMsg.\RootID $\leftarrow$ (\Stable \mbox{\textbf{ and }} \MyVacancy $\neq$ \Null) $?$ \MyID $ : \infty$\;
-    \MyMsg.\RelocateID $\leftarrow$ \Stable $ ? \infty$ : \MyID\;
+    \MyMsg.\RootID $\leftarrow$ (\Stable \mbox{\textbf{ and }} \MyVacancy $\neq$ \Null) $?$ \MyID $ : -\infty$\;
+    \MyMsg.\RelocateID $\leftarrow$ \Stable $ ? -\infty$ : \MyID\;
     \EM $\leftarrow$ \{\}\;
     \VFM $\leftarrow$ \Null\;
     \ForEach{\Msg \mbox{\textbf{ in }} \InMsgs}{
@@ -626,6 +626,33 @@ With Lemma~\ref{lem:connected}, the robots'
 communication graph is guaranteed to be connected from an initial connected one.
 %
 As a result, the relocate robot can reach a vacancy by backtracking the its path from the root. 
+
+
+\begin{thm}
+    \changed{Given a connected communication graph composed of $n$ robots,
+    Algorithm~\ref{alg:msg} constructs a spanning tree, rooted at the highest
+    ID stable robot with at least one vacancy, in bounded time.}
+\end{thm}
+
+\begin{proof}
+    First, for a node, it takes $O(m)$ time steps to know the ID of
+    the root who is $m$ hops away from it (Algorithm~\ref{alg:msg}, lines 2--20).
+    % 
+    Thus, it takes $O(n)$ time steps for each robot to reach consensus of the
+    root ID.
+    %
+    Meanwhile, by tracking the path from the root, each robot knows the number
+    of hops to the root robot.
+    %
+    Furthermore, recall that each non-root robot selects the neighbor with 1)
+    the shortest path to root, 2) the highest ID among neighbors (excluding the
+    relocate robot if the relocate robot is one of its neighbors) within its
+    range, as its parent. With this policy, a descendant robot will never take
+    any of its ancestor as its descendant.
+    %
+    Hence, the spanning tree, rooted at the robot with highest ID among all
+    stable robots, will be constructed in $O(n)$ time steps. 
+\end{proof}
 
 Now we show that it takes a finite number of steps for a relocate robot to reach
 a vacancy, so that the location and the root robot's position satisfy the
